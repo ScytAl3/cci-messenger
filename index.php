@@ -5,14 +5,15 @@ session_start ();
 // variables de session
 // ---------------//------------------------
 // login en cours
-$_SESSION['session'] = false;
-// affichage du numero identiant apres la creation d un membre
-$_SESSION['idCreate'] = '';
+$_SESSION['session'] = (isset($_SESSION['session'])) ? $_SESSION['session'] : false;
 // peudo de l utilisateur connecte
-$_SESSION['pseudo']  = '';
+$_SESSION['pseudo']  =  (isset($_SESSION['pseudo'])) ? $_SESSION['pseudo'] : '';
 // message d erreur de login
-$_SESSION['showErrorLogin']  = false;
-$_SESSION['errorMsgLog']  = '';
+$_SESSION['showErrorLogin']  = (isset($_SESSION['showErrorLogin'])) ? $_SESSION['showErrorLogin'] : false;
+$_SESSION['errorMsgLog']  =  (isset($_SESSION['errorMsgLog'])) ? $_SESSION['errorMsgLog'] :'';
+// ---------------//------------------------
+// variables de session
+// ---------------//------------------------
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -68,8 +69,8 @@ $_SESSION['errorMsgLog']  = '';
                         <div class="text-center mx-auto">
                             <h2 class="display-4 font-weight-bold text-muted">Accéder à votre messagerie</h2>                       
                             <!-- area pour afficher un message d erreur lors du login -->
-                            <div class="<?= $loginValid ? 'visible show-bg' : 'invisible'; ?> text-center mt-5">
-                                <p class="lead mt-2"><span><?= $loginMessage; ?></span></p>
+                            <div class="show-bg<?= ($_SESSION['showErrorLogin'])? '' : 'visible'; ?> text-center mt-5">
+                                <p class="lead mt-2"><span><?= $_SESSION['errorMsgLog']; ?></span></p>
                             </div>
                             <!-- /area pour afficher un message d erreur lors du login -->
                         </div>

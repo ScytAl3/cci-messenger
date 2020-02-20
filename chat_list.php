@@ -7,13 +7,18 @@ require 'pdo/pdo_db_functions.php';
 // variables de session
 // ---------------------------------------
 // login en cours
-$current_session =  (isset($_SESSION['session'])) ? $_SESSION['session'] : false;
+$current_session = $_SESSION['session'];
 // recuperation de l identifiant de l utilisateur connecte
-$currentId = $_SESSION['currentId'];
-// affichage du numero identiant apres la creation d un utilisateur
-$creationId = (isset($_SESSION['idCreate'])) ? $_SESSION['idCreate']: '';
-// peudo de l utilisateur connecte
-$userPseudo = (isset($_SESSION['pseudo'])) ? $_SESSION['pseudo'] : '';
+$current_Id = $_SESSION['current_Id'];
+// pseudo de l utilisateur connecte
+$userPseudo = $_SESSION['pseudo'];
+// avatar de l utilisateur connecte
+$userAvatar = $_SESSION['profilePicture'];
+//recuperation du numero identiant apres la creation d un utilisateur
+$creationId = $_SESSION['idCreate'];
+// ---------------//----------------------
+// variables de session
+// ---------------//----------------------
 // verification que l utilisateur ne passe pas par l URL
 if (!isset($_SESSION['session'])) {
     header('location:index.php');
@@ -25,7 +30,7 @@ if (!isset($_SESSION['session'])) {
 		<!-- default Meta -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>CCI Messenger - Conversation</title>
+		<title>CCI Messenger - Derniers messages</title>
 		<meta name="author" content="Franck Jakubowski">
 		<meta name="description" content="Une mini messagerie accessible après un login.">
 		<!-- 
@@ -45,7 +50,7 @@ if (!isset($_SESSION['session'])) {
         <?php include 'includes/header.php'; ?>
         <!-- /import du header -->
         <!--------------------------------------//------------------------------------------------
-                debut du container pour afficher le tableau des derniers messages
+                    debut du container pour afficher les derniers messages
         ----------------------------------------//------------------------------------------------>   
         <div class="container-fluid">            
             <div class="table-responsive">
@@ -54,10 +59,9 @@ if (!isset($_SESSION['session'])) {
                     <tbody>
                         <!-- creation de la ligne des entetes -->
                         <tr>
-                            <th>MyPhoto</th>
-                            <th>MyMsg</th>
-                            <th>SenderMsg</th>
-                            <th>SenderPhoto</th>
+                            <th>Phto</th>
+                            <th>Expéditeur</th>
+                            <th>Action</th>
                         </tr>
                         <!-- /creation de la ligne des entetes -->
 
@@ -66,37 +70,47 @@ if (!isset($_SESSION['session'])) {
                         ---------------------------------------------------------------------------->
                         <?php             
                              // preparation de la requete preparee 
-                             
-                             
+                           $queryMsg = "SELECT u.userId, 
+                                                                u.userPseudo AS pseudo,
+                                                                u.userPicture AS pic,
+                                                                max(t.create_at),
+                                                                t.messageBody 
+                                                    FROM messages t, messaging m, users u 
+                                                    WHERE t.messagingId = m.messagingId 
+                                                    AND m.senderId = u.userId
+                                                    AND m.receiverId = 1";        
                             // on appelle la fonction qui retourne le tableau de ligue 1
-                                                   
+                            $conversationList = dataReader($queryMsg);                        
                             // si la requete retourne un objet
-                           
+                            if ($conversationList) {
                                 //  boucle pour creer les row 
-                               // foreach ($conversationList as $key => $value) {
+                                foreach ($conversationList as $key => $value) {
                         ?>
                                 <!-- creation de la ligne associee a un club -->
                                 <tr>
-                                    <!-- on affiche dans la premiere colonne l avatar du receveur -->
-                                    <td></td>
-                                    <!-- on affiche les messages receveur-expediteur -->
-                                    <td></td>
-                                    <td></td>
-                                    <!-- on affiche l avatar de l expediteur -->
-                                    <td</td>
+                                    <!-- on affiche dans la premiere colonne l avatar de l expediteur -->
+                                    <td><img src="/img/profil_pictures/<?=$conversationList[$key]['pic']; ?>" alt="Photo du contact"></td>
+                                    <!-- on affiche le pseudo et un resume du dernier message -->
+                                    <td><?=$conversationList[$key]['pseudo']; ?></td>
+                                    <!-- on affiche le bouton pour afficher la conversation -->
+                                    <td class="d-flex justify-content-center"><a class="btn btn-dark" href="chat_current.php?usrId=<?= $current_Id; ?>">Show</a></td>
                                 </tr>
                                 <!-- /creation de la ligne associee a un club -->
                                 <?php
-                               // } 
+                                } 
                             // si la requete ne retourne rien
-                            /*} else {
+                            } else {
                                 echo 'Aucune données dans la table classement !';
-                            } */
+                            } 
                             ?>
                             <!--  /boucle pour creer les row -->                         
                     </tbody>
                 </table>
-                <!-- /tableau de la saison de ligue 1 2019/2020 -->            
+                <!-- /tableau  -->    
+                <!-- lien vers le formulaire pour ajouter un club si admin -->
+                <div class="mb-2 mx-auto">
+                    <a class="btn btn-success btn-lg btn-block" href="/contacts_list.php">Nouvelle conversation</a>
+                </div>         
             </div>
         </div>
 <!-- ---------------------//----------------------------- -->
