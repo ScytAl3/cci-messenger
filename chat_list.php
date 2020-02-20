@@ -30,7 +30,7 @@ if (!isset($_SESSION['session'])) {
 		<!-- default Meta -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>CCI Messenger - Derniers messages</title>
+		<title>CCI Messenger - Liste des derniers messages</title>
 		<meta name="author" content="Franck Jakubowski">
 		<meta name="description" content="Une mini messagerie accessible après un login.">
 		<!-- 
