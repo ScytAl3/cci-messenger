@@ -8,6 +8,8 @@ session_start ();
 $_SESSION['session'] = (isset($_SESSION['session'])) ? $_SESSION['session'] : false;
 // peudo de l utilisateur connecte
 $_SESSION['pseudo']  =  (isset($_SESSION['pseudo'])) ? $_SESSION['pseudo'] : '';
+// avatar de l utilisateur connecte
+$_SESSION['profilePicture'] = (isset($_SESSION['profilePicture'])) ? $_SESSION['profilePicture'] : 'avatar_default.png';
 // message d erreur de login
 $_SESSION['showErrorLogin']  = (isset($_SESSION['showErrorLogin'])) ? $_SESSION['showErrorLogin'] : false;
 $_SESSION['errorMsgLog']  =  (isset($_SESSION['errorMsgLog'])) ? $_SESSION['errorMsgLog'] :'';
