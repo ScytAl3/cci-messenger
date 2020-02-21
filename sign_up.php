@@ -12,9 +12,16 @@ $current_session = $_SESSION['session'];
 $userPseudo = $_SESSION['pseudo'];
 // avatar de l utilisateur connecte
 $userAvatar = $_SESSION['profilePicture'];
+// on détruit les variables d erreur de login de notre session
+unset ($_SESSION['showErrorLog'], $_SESSION['errorMsgLog']);
 // message d erreur de creation
-$_SESSION['showErrorCreate']  = (isset($_SESSION['showErrorCreate'])) ? $_SESSION['showErrorCreate'] : false;
-$_SESSION['errorMsgCreate']  =  (isset($_SESSION['errorMsgCreate'])) ? $_SESSION['errorMsgCreate'] :'';
+$_SESSION['showErrorSignup']  = (isset($_SESSION['showErrorSignup'])) ? $_SESSION['showErrorSignup'] : false;
+$_SESSION['errorMsgSignUp']  =  (isset($_SESSION['errorMsgSignUp'])) ? $_SESSION['errorMsgSignUp'] :'';
+// recuperation des champs si le formulaire a ete envoye avec des erreurs
+$userLastName = (isset($_SESSION['inputLastName'])) ? $_SESSION['inputLastName'] : '';
+$userFirstName = (isset($_SESSION['inputFirstName'])) ? $_SESSION['inputFirstName'] : '';
+$userPseudo = (isset($_SESSION['inputPseudo'])) ? $_SESSION['inputPseudo'] : '';
+$userEmail = (isset($_SESSION['inputMail'])) ? $_SESSION['inputMail'] : '';
 // ---------------//----------------------
 // variables de session
 // ---------------//----------------------
@@ -52,16 +59,15 @@ if (!isset($_SESSION['session'])) {
                  debut du container de la page du formulaire d inscription
         -------------------------------------//----------------------------------------->
         <div class="d-md-flex flex-md-equal w-100 mt-5 pl-md-3 justify-content-center">						            
-            <div class="mr-md-3 px-md-5 col-md-8 bg-info">  
-				<!-- area pour afficher un message d erreur lors de la creation -->
-				<div class="show-bg <?=($_SESSION['showErrorCreate']) ? '' : 'visible'; ?> text-center mt-5">
-					<p class="lead mt-2"><span><?=$_SESSION['errorMsgCreate']; ?></span></p>
-				</div>
-                <!-- /area pour afficher un message d erreur lors de la creation -->
-
+            <div class="mr-md-3 px-md-5 col-md-8 bg-info">  			
 				<!-- titre du formulaire -->              
 				<div class="py-2 text-center">
-					<h1>Formulaire d'inscription</h1>
+					<h1><strong>INSCRIPTION</strong></h1>
+					<!-- area pour afficher un message d erreur lors de la creation -->
+					<div class="show-bg <?=($_SESSION['showErrorSignup']) ? '' : 'visible'; ?> text-center mt-5">
+						<p class="lead mt-2"><span><?=$_SESSION['errorMsgSignUp']; ?></span></p>
+					</div>
+					<!-- /area pour afficher un message d erreur lors de la creation -->
 					<hr class="mb-1">
 				</div>
                 <!-- titre du formulaire -->
@@ -72,35 +78,34 @@ if (!isset($_SESSION['session'])) {
                     <!-- photo avatar -->
 					<div class="mb-4">
 						<label for="fileToUpload">Votre photo de profil</label>
-                        <input class="form-control" id=" fileToUpload" name="fileToUpload" type="file"  required>
+                        <input class="form-control" id=" fileToUpload" name="fileToUpload" type="file" >
                     </div>
                     
                     <!-- nom -->
 					<div class="mb-4">
 						<label for="lastName">Nom</label>
-						<input class="form-control" name="lastName" id="lastName" type="text" required
+						<input class="form-control" name="lastName" id="lastName" type="text" value="<?=$userLastName; ?>" required
 							pattern="^[A-Z][a-z -]{1,75}$">
                     </div>	
                     		
 					<!-- prenom -->
 					<div class="mb-4">
 						<label for="firstName">Prénom</label>
-						<input class="form-control" name="firstName" id="firstName" type="text" required
+						<input class="form-control" name="firstName" id="firstName" type="text" value="<?=$userFirstName; ?>" required
 							pattern="^[A-Z][a-z -]{1,75}$">
                     </div>		
                     
                     <!-- pseudo -->
 					<div class="mb-4">
 						<label for="pseudo">Pseudo</label>
-						<input class="form-control" name="pseudo" id="pseudo" type="text" required
-							pattern="^[A-Z][a-z -]{1,20}$">
+						<input class="form-control" name="pseudo" id="pseudo" type="text" value="<?=$userPseudo; ?>" required >
 					</div>
 
 					<!-- email -->
 					<div class="mb-4">
 						<label for="email">Courriel</label>
 						<input class="form-control" type="email" name="email" id="email"
-							placeholder="utilisateur@domaine.fr" required
+							placeholder="utilisateur@domaine.fr" value="<?=$userEmail; ?>" required
 							pattern="^[\w!#$%&'*+/=?`{|}~^-]+(?:\.[\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$">
 						<span class="invalid-feedback" aria-live="polite">
 					</div>

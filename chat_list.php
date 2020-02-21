@@ -14,9 +14,11 @@ $current_Id = $_SESSION['current_Id'];
 $userPseudo = $_SESSION['pseudo'];
 // avatar de l utilisateur connecte
 $userAvatar = $_SESSION['profilePicture'];
-//recuperation du numero identiant apres la creation d un utilisateur
-$creationId = $_SESSION['idCreate'];
-// ---------------//----------------------
+// on détruit les variables d erreur de login de notre session
+unset ($_SESSION['showErrorLog'], $_SESSION['errorMsgLog']);
+// message d erreur de creation
+$_SESSION['showMsg']  = (isset($_SESSION['showMsg'])) ? $_SESSION['showMsg'] : false;
+$_SESSION['message']  =  (isset($_SESSION['message'])) ? $_SESSION['message'] :'';
 // variables de session
 // ---------------//----------------------
 // verification que l utilisateur ne passe pas par l URL
@@ -51,8 +53,18 @@ if (!isset($_SESSION['session'])) {
         <!-- /import du header -->
         <!--------------------------------------//------------------------------------------------
                     debut du container pour afficher les derniers messages
-        ----------------------------------------//------------------------------------------------>   
-        <div class="container-fluid">            
+        ----------------------------------------//------------------------------------------------>           
+        <div class="container-fluid">
+            <!-- titre de la page -->
+            <div class="p-3 mt-5 mb-2 bg-info text-white">    
+                <h1 class="text-center">Vous avez XXXXXX messagerie(s) en cours</h1> 
+            </div>  
+            <!-- /titre de la page -->
+            <!-- area pour afficher un message d erreur lors de la creation -->
+            <div class="show-bg <?=($_SESSION['showMsg']) ? '' : 'visible'; ?> text-center mt-5">
+                <p class="lead mt-2"><span><?=$_SESSION['message'][0]; ?></span></p>
+            </div>
+            <!-- /area pour afficher un message d erreur lors de la creation -->           
             <div class="table-responsive">
                 <!-- tableau des messages -->
                 <table class="table table-striped table-sm">

@@ -15,7 +15,7 @@ $userPseudo = $_SESSION['pseudo'];
 // avatar de l utilisateur connecte
 $userAvatar = $_SESSION['profilePicture'];
 //recuperation du numero identiant apres la creation d un utilisateur
-$creationId = $_SESSION['idCreate'];
+$creation_Id = $_SESSION['create_id'];
 // ---------------//----------------------
 // variables de session
 // ---------------//----------------------

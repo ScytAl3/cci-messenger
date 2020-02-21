@@ -4,9 +4,9 @@ require 'pdo_db_connect.php';
 // -- import du script des fonctions speciales
 require 'special_functions.php';
 
-// -----------------------------//-------------------------------
-//      fonction pour verifier l existence du pseudo
-// -----------------------------//-------------------------------
+// ---------------------------------------------//-----------------------------------------
+//      fonction pour verifier l existence du pseudo qui doit être unique
+// ---------------------------------------------//-----------------------------------------
 function pseudoExiste($pseudoToTest) {
     // on instancie une connexion
     $pdo = my_pdo_connexxion();
@@ -42,6 +42,43 @@ function pseudoExiste($pseudoToTest) {
     return $user_row; 
 }
 
+// ---------------------------------------------//-----------------------------------------
+//      fonction pour verifier l existence du email qui doit être unique !! TO-DO une fonction qui prend en parametre le where pour ne pas faire doublon !!
+// ---------------------------------------------//-----------------------------------------
+function emailExiste($emailToTest) {
+    // on instancie une connexion
+    $pdo = my_pdo_connexxion();
+    // preparation de la  requete preparee pour verifier si l adresse email (email unique) est deja utilisee
+    $query = "SELECT * FROM users WHERE userEmail = :bp_email";
+    // preparation de l execution de la requete
+    try {
+        $statement = $pdo -> prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+        // passage de l email saisi en  parametre
+        $statement->bindParam(':bp_email', $emailToTest, PDO::PARAM_STR);
+        // execution de la requete
+        $statement -> execute(); 
+        $user_count = $statement->rowCount();       
+        // --------------------------------------------------------------
+        //var_dump($user_row = $statement->fetch()); die; 
+        // --------------------------------------------------------------
+        // si on trouve un resultat
+        if ($user_count == 1) {
+            // on recupere les donnees trouvees dans 
+            $user_row = $statement->fetch();
+        } else {
+            $user_row = false;
+        }         
+        $statement -> closeCursor();
+    } catch(PDOException $ex) {         
+        $statement = null;
+        $pdo = null;
+        die("Secured"); 
+    }
+    $statement = null;
+    $pdo = null;
+    // on retourne le resultat
+    return $user_row; 
+}
 // ------------------------------------------------------------
 //           fonction pour verifier le mot de passe
 // ------------------------------------------------------------
@@ -109,7 +146,10 @@ function createUser($userData) {
     // on instancie une connexion
     $pdo = my_pdo_connexxion();
     // preparation de la requete pour creer un utilisateur
-    $sqlInsert = "INSERT INTO users (userFirstName, userLastName, userEmail, userPassword, userRole) VALUES (?, ?, ?, ?, ?)";
+    $sqlInsert = "INSERT INTO 
+                                users (`userLastName`, `userFirstName`, `userPseudo`, `userEmail`, `userPassword`, `userSalt`, `userPicture`) 
+                            VALUES 
+                                (?, ?, ?, ?, ?, ?, ?)";
     // preparation de la requete pour execution
     try {
         $statement = $pdo -> prepare($sqlInsert, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));

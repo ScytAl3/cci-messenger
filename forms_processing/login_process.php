@@ -29,12 +29,12 @@
                 $_SESSION['session'] = true;
                 // on le dirige vers la page d accueil
                 // on détruit les variables d erreur de login de notre session
-                unset ($_SESSION['showErrorLogin'], $_SESSION['errorMsgLog']);
+                unset ($_SESSION['showErrorLog'], $_SESSION['errorMsgLog']);
                 header('location: /../chat_list.php');   
             } else {
                 // on peut demarre notre session avec les message d erreur (mot de passe non valide)
                 session_start ();
-                $_SESSION['showErrorLogin'] = true;
+                $_SESSION['showErrorLog'] = true;
                 $_SESSION['errorMsgLog'] = "Erreur de connexion, veuillez vérifier vos identifiants de connexion";
                 // on redirige vers la page index.php
                 header('location:/../index.php');
@@ -43,7 +43,7 @@
         } else {
             // on demarre notre session avec les messages d erreur (pseudo n existe pas dans la table)
             session_start ();
-            $_SESSION['showErrorLogin'] = true;
+            $_SESSION['showErrorLog'] = true;
             $_SESSION['errorMsgLog'] = "Erreur de connexion, veuillez vérifier vos identifiants de connexion";
             // on redirige vers la page index.php avec les parametres pour afficher le message d erreur
             header('location:/../index.php');

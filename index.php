@@ -11,7 +11,7 @@ $_SESSION['pseudo']  =  (isset($_SESSION['pseudo'])) ? $_SESSION['pseudo'] : '';
 // avatar de l utilisateur connecte
 $_SESSION['profilePicture'] = (isset($_SESSION['profilePicture'])) ? $_SESSION['profilePicture'] : 'avatar_default.png';
 // message d erreur de login
-$_SESSION['showErrorLogin']  = (isset($_SESSION['showErrorLogin'])) ? $_SESSION['showErrorLogin'] : false;
+$_SESSION['showErrorLog']  = (isset($_SESSION['showErrorLog'])) ? $_SESSION['showErrorLog'] : false;
 $_SESSION['errorMsgLog']  =  (isset($_SESSION['errorMsgLog'])) ? $_SESSION['errorMsgLog'] :'';
 // ---------------//------------------------
 // variables de session
@@ -71,7 +71,7 @@ $_SESSION['errorMsgLog']  =  (isset($_SESSION['errorMsgLog'])) ? $_SESSION['erro
                         <div class="text-center mx-auto">
                             <h2 class="display-4 font-weight-bold text-muted">Accéder à votre messagerie</h2>                       
                             <!-- area pour afficher un message d erreur lors du login -->
-                            <div class="show-bg<?= ($_SESSION['showErrorLogin'])? '' : 'visible'; ?> text-center mt-5">
+                            <div class="show-bg<?= ($_SESSION['showErrorLog'])? '' : 'visible'; ?> text-center mt-5">
                                 <p class="lead mt-2"><span><?= $_SESSION['errorMsgLog']; ?></span></p>
                             </div>
                             <!-- /area pour afficher un message d erreur lors du login -->
