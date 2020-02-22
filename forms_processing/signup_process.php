@@ -83,13 +83,14 @@
             session_start ();
             // on passe en parametre le nouvel identifiant cree
             $_SESSION['current_Id'] = $newUser;
+            $_SESSION['inputPseudo'] = $_POST['pseudo'];
             $_SESSION['profilePicture'] = $_FILES['fileToUpload']['name'];
             $_SESSION['showMsg'] = true;
             $_SESSION['message'] = $userUpload;
-             // on creer une variable de session login
+            // on creer une variable de session login
             $_SESSION['session'] = true;
-            // on détruit les variables d erreurs liees au formulaire 
-            unset ($_SESSION['showErrorSignup'], $_SESSION['errorMsgSignUp']);       
+            // on détruit les variables d erreurs liees au formulaire et celles des champs de saisie
+            unset ($_SESSION['showErrorSignup'], $_SESSION['errorMsgSignUp'], $_SESSION['inputLastName'], $_SESSION['inputFirstName'], $_SESSION['inputMail']);       
             // on redirige vers la page de la liste des messagerie
             header('location:/../chat_list.php');       
             exit();        

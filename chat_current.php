@@ -14,8 +14,10 @@ $current_Id = $_SESSION['current_Id'];
 $userPseudo = $_SESSION['pseudo'];
 // avatar de l utilisateur connecte
 $userAvatar = $_SESSION['profilePicture'];
-//recuperation du numero identiant apres la creation d un utilisateur
-$creationId = $_SESSION['idCreate'];
+// reuperation des informations du contact
+$_SESSION['contactId'] = (isset($_SESSION['contactId'])) ? $_SESSION['contactId'] : $_GET['contactId'];
+$_SESSION['contactAvatar'] = (isset($_SESSION['contactAvatar'])) ? $_SESSION['contactAvatar'] : $_GET['contactAvatar'];
+$_SESSION['contactPseudo'] = (isset($_SESSION['contactPseudo'])) ? $_SESSION['contactPseudo'] : $_GET['contactPseudo'];
 // ---------------//----------------------
 // variables de session
 // ---------------//----------------------
@@ -39,7 +41,7 @@ if (!isset($_SESSION['session'])) {
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
             integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 		<!-- default stylesheet -->
-		<link href="css/messaging.css" rel="stylesheet" type="text/css">
+		<link href="css/chat_current.css" rel="stylesheet" type="text/css">
         <!-- includes stylesheet -->
         <link href="css/header.css" rel="stylesheet" type="text/css">
     </head>    
@@ -49,59 +51,80 @@ if (!isset($_SESSION['session'])) {
         <?php include 'includes/header.php'; ?>
         <!-- /import du header -->
         <!--------------------------------------//------------------------------------------------
-                debut du container pour afficher le tableau des derniers messages
+                    debut du container pour afficher la conversation en cours
         ----------------------------------------//------------------------------------------------>   
-        <div class="container-fluid">            
-            <div class="table-responsive">
-                <!-- tableau des messages -->
-                <table class="table table-striped table-sm">
-                    <tbody>
-                        <!-- creation de la ligne des entetes -->
-                        <tr>
-                            <th>MyPhoto</th>
-                            <th>MyMsg</th>
-                            <th>SenderMsg</th>
-                            <th>SenderPhoto</th>
-                        </tr>
-                        <!-- /creation de la ligne des entetes -->
-
-                        <!--------------------------------------------------------------------------
-                                debut script php pour recuperer les donnees dans la table
-                        ---------------------------------------------------------------------------->
-                        <?php             
-                             // preparation de la requete preparee 
-                             
-                             
-                            // on appelle la fonction qui retourne le tableau de ligue 1
-                                                   
-                            // si la requete retourne un objet
-                           
-                                //  boucle pour creer les row 
-                               // foreach ($conversationList as $key => $value) {
+        <div class="container mt-5">
+            <!--------------------------------------//-------------------------------------------
+                    debut script php pour recuperer les donnees de la conversation
+            ----------------------------------------//------------------------------------------->
+            <?php
+                // on recupere la variable de session de l identifant du contact
+                $contact_Id = $_SESSION['contactId'];
+                // on appelle la fonction qui retourne les donnees
+                $conversation = messageReader($current_Id, $contact_Id);               
+                //
+                //var_dump($conversation); die;
+                //       
+                // si la requete retourne un objet
+                if ($conversation) {
+                    //  boucle pour creer les row 
+                    foreach ($conversation as $message => $column) {
+                        if ($conversation[$message]['receiverId'] == $current_Id ) {
+                        ?> 
+                        <div class="mb-3 w-75 mr-auto">                            
+                                <div class="d-flex">
+                                    <img class="avatar-circle" src="/img/profil_pictures/<?=$userAvatar ?>" alt="Ma photo">             
+                                    <div class="ml-4">
+                                        <p class="card-text"><?=$conversation[$message]['create_at']; ?></p>
+                                        <h3 class="card-title p-2 message-receiver-bg"><?=$conversation[$message]['messageBody']; ?></h3>                                        
+                                    </div>
+                                </div>                            
+                        </div> 
+                        <?php
+                        } else {
                         ?>
-                                <!-- creation de la ligne associee a un club -->
-                                <tr>
-                                    <!-- on affiche dans la premiere colonne l avatar du receveur -->
-                                    <td></td>
-                                    <!-- on affiche les messages receveur-expediteur -->
-                                    <td></td>
-                                    <td></td>
-                                    <!-- on affiche l avatar de l expediteur -->
-                                    <td</td>
-                                </tr>
-                                <!-- /creation de la ligne associee a un club -->
-                                <?php
-                               // } 
-                            // si la requete ne retourne rien
-                            /*} else {
-                                echo 'Aucune données dans la table classement !';
-                            } */
-                            ?>
-                            <!--  /boucle pour creer les row -->                         
-                    </tbody>
-                </table>
-                <!-- /tableau de la saison de ligue 1 2019/2020 -->            
+                        <div class="mb-3 w-75 ml-auto">
+                            <div>
+                                <div class="d-flex justify-content-end">                                               
+                                    <div class="mr-4 px-3 py-2 text-right">
+                                        <p class="card-text"><?=$conversation[$message]['create_at']; ?></p>
+                                        <h3 class="card-title p-2 message-sender-bg"><?=$conversation[$message]['messageBody']; ?></h3>
+                                    </div>
+                                    <img class="avatar-circle" src="/img/profil_pictures/<?=$_SESSION['contactAvatar'] ?>" alt="Photo du contact">  
+                                </div>
+                            </div>
+                        </div> 
+                        <?php
+                            }
+                        }
+                    } else {
+                    ?>
+                    <div class="mb-3 w-100">                                                                       
+                        <div class="mr-4 px-3 py-2 text-center message-sender-bg">
+                            <h2 class="card-title">C'est votre première conversation avec <strong><?=$_SESSION['contactPseudo'] ?> !</h2>
+                        </div>
+                    </div> 
+                    <?php
+                    }
+                    ?>   
+            <!-- formulaire pour saisir du texte -->             
+            <div class="card text-white bg-success px-3 py-2 mb-3 w-100">                    
+                <form class="form-inscription" action="/forms_processing/message_sending_process.php" method="POST">    
+                    <div class="d-flex ">                                
+                        <div class="w-100 align-self-center">
+                            <textarea class="form-control" name="messageSend"   id="messageSend" placeholder="Votre message message.." required></textarea>
+                            <input type="hidden" id="custId" name="custId" value="3487">
+                            <input type="hidden" id="custId" name="custId" value="3487">
+                            <input type="hidden" id="custId" name="custId" value="3487">
+                            <input type="hidden" id="custId" name="custId" value="3487">
+                        </div>
+                        <div class="ml-auto">
+                            <button class="btn btn-primary btn-lg btn-block  h-100 align-items-stretch" type="submit" name="sendMessage">Submit</button>
+                        </div>
+                    </div>
+                </form>                     
             </div>
+            <!-- f/ormulaire pour saisir du texte -->
         </div>
 <!-- ---------------------//----------------------------- -->
 <?php var_dump($_SESSION); ?>

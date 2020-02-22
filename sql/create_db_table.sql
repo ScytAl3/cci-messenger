@@ -76,7 +76,14 @@ VALUES
     (1, 4),         -- messagingId 01
     (4, 1),         -- messagingId 02
     (4, 1),         -- messagingId 03
-    (1, 4);         -- messagingId 04
+    (1, 4),         -- messagingId 04
+    (1, 6),         -- messagingId 05
+    (4, 2),         -- messagingId 06
+    (1, 2),         -- messagingId 07
+    (2, 6),         -- messagingId 08
+    (2, 6),         -- messagingId 09
+    (3, 1),         -- messagingId 10
+    (1, 3);         -- messagingId 11
 
 #-----------------------------------------------------------
 # Table: MESSAGES - Data
@@ -87,4 +94,11 @@ VALUES
     (1, '2020-02-20 13:29:09', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'),
     (2, '2020-02-20 13:35:49', 'Atque, voluptatem?'),
     (3, '2020-02-20 13:35:57', 'Velit qui nobis odio consectetur saepe, voluptates laboriosam temporibus, impedit quibusdam dolorum, ullam dolore eaque odit fugiat praesentium asperiores.'),
-    (4, '2020-02-20 13:37:07', 'Non');
+    (4, '2020-02-20 13:37:07', 'At hoc in eo M.');
+    (5, '2020-02-20 13:47:20', 'De quibus cupio scire quid sentias. Traditur, inquit, ab Epicuro ratio neglegendi doloris.'),
+    (6, '2020-02-20 13:48:17', 'Pork loin doner sausage turducken capicola.  Pork chop beef ribs turkey ball tip shankle, chicken short loin burgdoggen tongue.'),
+    (7, '2020-02-20 13:51:09', 'Ham meatloaf beef jerky pork loin.'),
+    (8, '2020-02-20 13:57:45', 'Dracopelta Tangvayosaurus Nigersaurus Lamplughsaura Hypsirophus Fruitadens Gongbusaurus Erlicosaurus Balochisaurus'),
+    (9, '2020-02-20 14:07:25', 'Albertonykus Adeopapposaurus Kotasaurus'),
+    (10, '2020-02-20 14:09:50', 'Haec igitur Epicuri non probo, inquam. Praeteritis, inquit, gaudeo. Uterque enim summo bono fruitur, id est voluptate.'),
+    (11, '2020-02-20 14:17:37', 'Fortemne possumus dicere eundem illum Torquatum?');

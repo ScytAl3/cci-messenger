@@ -15,10 +15,8 @@ $userPseudo = $_SESSION['pseudo'];
 // avatar de l utilisateur connecte
 $userAvatar = $_SESSION['profilePicture'];
 // on détruit les variables d erreur de login de notre session
-unset ($_SESSION['showErrorLog'], $_SESSION['errorMsgLog']);
-// message d erreur de creation
-$_SESSION['showMsg']  = (isset($_SESSION['showMsg'])) ? $_SESSION['showMsg'] : false;
-$_SESSION['message']  =  (isset($_SESSION['message'])) ? $_SESSION['message'] :'';
+unset ($_SESSION['showErrorSignup'], $_SESSION['errorMsgSignUp']);
+// ---------------//----------------------
 // variables de session
 // ---------------//----------------------
 // verification que l utilisateur ne passe pas par l URL
@@ -41,8 +39,10 @@ if (!isset($_SESSION['session'])) {
 		<!-- bootstrap stylesheet -->
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
             integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <!-- font awesome stylesheet -->
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 		<!-- default stylesheet -->
-		<link href="css/messaging.css" rel="stylesheet" type="text/css">
+		<link href="css/chat_list.css" rel="stylesheet" type="text/css">
         <!-- includes stylesheet -->
         <link href="css/header.css" rel="stylesheet" type="text/css">
     </head>    
@@ -52,78 +52,68 @@ if (!isset($_SESSION['session'])) {
         <?php include 'includes/header.php'; ?>
         <!-- /import du header -->
         <!--------------------------------------//------------------------------------------------
-                    debut du container pour afficher les derniers messages
+                            debut du container pour afficher les messageries
         ----------------------------------------//------------------------------------------------>           
-        <div class="container-fluid">
-            <!-- titre de la page -->
-            <div class="p-3 mt-5 mb-2 bg-info text-white">    
-                <h1 class="text-center">Vous avez XXXXXX messagerie(s) en cours</h1> 
+        <div class="container-fluid">            
+            <!---------------------------------//-----------------------------------------
+                    debut script php pour recuperer les donnees dans la table
+            -----------------------------------//----------------------------------------->
+            <?php   
+                // on appelle la fonction qui retourne le tableau de ligue 1
+                $messagerieList = messagerieReader($current_Id);          
+                //
+                //var_dump($messagerieList); die;
+                //
+                // si la requete retourne un objet
+                if ($messagerieList) {
+                    // on compte le nombre d'item dans l array
+                    $countMessagerie = count($messagerieList); 
+                    // on affiche un message avec le nombre de messageries
+                ?>
+                <!-- titre de la page avec le nombre de messagerie existantes -->
+                <div class="my-3 w-100">                                                                       
+                    <div class="mx-auto px-3 py-2 text-center info-message-bg">
+                        <h2 class="card-title">Vous avez <strong><?= $countMessagerie ?></strong> messagerie(s)</h2>
+                    </div>
+                </div>
+                <!-- /titre de la page avec le nombre de messagerie existantes --> 
+            <?php 
+                //  boucle pour afficher les messageries
+                foreach ($messagerieList as $contact => $column) {
+            ?>
+            <!-- on recupere les valeurs des differents champs d une ligne -->             
+            <div class="card bg-light border-light mb-3">
+                <div class="card-header">
+                    <div class="d-flex  w-100">
+                        <img class="avatar-circle" src="/img/profil_pictures/<?=$messagerieList[$contact]['userPicture']; ?>" alt="Photo du contact">             
+                        <div class="ml-5 mr-5 align-self-center">
+                            <h2 class="card-title"><strong><?=$messagerieList[$contact]['userPseudo']; ?></strong></h2>
+                            <h4 class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam quasi voluptate expedita aspernatur veniam, voluptatem qui praesentium consequatur quo, fugit dignissimos magni illo atque facere non fugiat provident maxime iste.</h4>
+                        </div>
+                        <div class="ml-auto align-self-center next-arrow">
+                            <a href="chat_current.php?contactId=<?=$messagerieList[$contact]['userId']; ?>&contactAvatar=<?=$messagerieList[$contact]['userPicture']; ?>&contactPseudo=<?=$messagerieList[$contact]['userPseudo']; ?>"><i class="fa fa-chevron-right fa-lg"></i></a>
+                        </div>
+                    </div>
+                </div>
             </div>  
-            <!-- /titre de la page -->
-            <!-- area pour afficher un message d erreur lors de la creation -->
-            <div class="show-bg <?=($_SESSION['showMsg']) ? '' : 'visible'; ?> text-center mt-5">
-                <p class="lead mt-2"><span><?=$_SESSION['message'][0]; ?></span></p>
-            </div>
-            <!-- /area pour afficher un message d erreur lors de la creation -->           
-            <div class="table-responsive">
-                <!-- tableau des messages -->
-                <table class="table table-striped table-sm">
-                    <tbody>
-                        <!-- creation de la ligne des entetes -->
-                        <tr>
-                            <th>Phto</th>
-                            <th>Expéditeur</th>
-                            <th>Action</th>
-                        </tr>
-                        <!-- /creation de la ligne des entetes -->
-
-                        <!--------------------------------------------------------------------------
-                                debut script php pour recuperer les donnees dans la table
-                        ---------------------------------------------------------------------------->
-                        <?php             
-                             // preparation de la requete preparee 
-                           $queryMsg = "SELECT u.userId, 
-                                                                u.userPseudo AS pseudo,
-                                                                u.userPicture AS pic,
-                                                                max(t.create_at),
-                                                                t.messageBody 
-                                                    FROM messages t, messaging m, users u 
-                                                    WHERE t.messagingId = m.messagingId 
-                                                    AND m.senderId = u.userId
-                                                    AND m.receiverId = 1";        
-                            // on appelle la fonction qui retourne le tableau de ligue 1
-                            $conversationList = dataReader($queryMsg);                        
-                            // si la requete retourne un objet
-                            if ($conversationList) {
-                                //  boucle pour creer les row 
-                                foreach ($conversationList as $key => $value) {
-                        ?>
-                                <!-- creation de la ligne associee a un club -->
-                                <tr>
-                                    <!-- on affiche dans la premiere colonne l avatar de l expediteur -->
-                                    <td><img src="/img/profil_pictures/<?=$conversationList[$key]['pic']; ?>" alt="Photo du contact"></td>
-                                    <!-- on affiche le pseudo et un resume du dernier message -->
-                                    <td><?=$conversationList[$key]['pseudo']; ?></td>
-                                    <!-- on affiche le bouton pour afficher la conversation -->
-                                    <td class="d-flex justify-content-center"><a class="btn btn-dark" href="chat_current.php?usrId=<?= $current_Id; ?>">Show</a></td>
-                                </tr>
-                                <!-- /creation de la ligne associee a un club -->
-                                <?php
-                                } 
-                            // si la requete ne retourne rien
-                            } else {
-                                echo 'Aucune données dans la table classement !';
-                            } 
-                            ?>
-                            <!--  /boucle pour creer les row -->                         
-                    </tbody>
-                </table>
-                <!-- /tableau  -->    
-                <!-- lien vers le formulaire pour ajouter un club si admin -->
-                <div class="mb-2 mx-auto">
-                    <a class="btn btn-success btn-lg btn-block" href="/contacts_list.php">Nouvelle conversation</a>
-                </div>         
-            </div>
+            <?php
+            } 
+            // si la requete ne retourne rien
+            } else {
+            ?>
+            <div class="my-3 w-100">                                                                       
+                <div class="mr-4 px-3 py-2 text-center info-message-bg">
+                    <h2 class="card-title">Vous n'avez aucune messagerie pour l'instant !</h2>
+                </div>
+            </div> 
+            <?php
+            }
+            ?>            
+            <!-- lien vers la liste des utilisateurs -->
+            <div class="mb-2 mx-auto">
+                <a class="btn btn-success btn-lg btn-block" href="/contacts_list.php">- Nouvelle conversation -</a>
+            </div> 
+            <!-- /lien vers la liste des utilisateurs -->
         </div>
 <!-- ---------------------//----------------------------- -->
 <?php var_dump($_SESSION); ?>

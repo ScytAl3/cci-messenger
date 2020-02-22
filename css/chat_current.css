@@ -1,0 +1,26 @@
+/* 
+    Created on : 20 février 2020
+    Author     : Franck J.
+*/
+.avatar-circle {
+    vertical-align: middle;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+}
+
+.message-receiver-bg {
+    background-color: aquamarine;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+
+.message-sender-bg {
+    background-color: coral;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+}

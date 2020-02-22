@@ -14,8 +14,6 @@ $current_Id = $_SESSION['current_Id'];
 $userPseudo = $_SESSION['pseudo'];
 // avatar de l utilisateur connecte
 $userAvatar = $_SESSION['profilePicture'];
-//recuperation du numero identiant apres la creation d un utilisateur
-$creation_Id = $_SESSION['create_id'];
 // ---------------//----------------------
 // variables de session
 // ---------------//----------------------
@@ -87,7 +85,7 @@ if (!isset($_SESSION['session'])) {
                             <h4 class="card-text"><?=$contactsList[$contact]['userLastName']; ?>&nbsp;&nbsp;<?=$contactsList[$contact]['userFirstName']; ?></h4>
                         </div>
                         <div class="ml-auto align-self-center">
-                            <a href="chat_current.php?usrId=<?=$contactsList[$contact]['userId']; ?>" class="btn btn-primary">Select</a>
+                            <a href="chat_current.php?contactId=<?=$contactsList[$contact]['userId']; ?>&contactAvatar=<?=$contactsList[$contact]['userPicture']; ?>&contactPseudo=<?=$contactsList[$contact]['userPseudo']; ?>" class="btn btn-primary">Select</a>
                         </div>
                     </div>
                 </div>

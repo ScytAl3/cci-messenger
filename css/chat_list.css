@@ -1,0 +1,14 @@
+/* 
+    Created on : 20 février 2020
+    Author     : Franck J.
+*/
+.info-message-bg {
+    background-color: cornflowerblue;
+    border-radius: 10px;
+    font-size: 1.1em;
+    color: black;
+}
+
+.next-arrow {
+    font-size: 1.3rem;
+}

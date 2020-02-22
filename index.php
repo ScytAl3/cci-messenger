@@ -9,7 +9,7 @@ $_SESSION['session'] = (isset($_SESSION['session'])) ? $_SESSION['session'] : fa
 // peudo de l utilisateur connecte
 $_SESSION['pseudo']  =  (isset($_SESSION['pseudo'])) ? $_SESSION['pseudo'] : '';
 // avatar de l utilisateur connecte
-$_SESSION['profilePicture'] = (isset($_SESSION['profilePicture'])) ? $_SESSION['profilePicture'] : 'avatar_default.png';
+$_SESSION['profilePicture'] = (isset($_SESSION['profilePicture'])) ? $_SESSION['profilePicture'] : '';
 // message d erreur de login
 $_SESSION['showErrorLog']  = (isset($_SESSION['showErrorLog'])) ? $_SESSION['showErrorLog'] : false;
 $_SESSION['errorMsgLog']  =  (isset($_SESSION['errorMsgLog'])) ? $_SESSION['errorMsgLog'] :'';

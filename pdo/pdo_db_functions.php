@@ -165,9 +165,86 @@ function createUser($userData) {
     return $pdo -> lastInsertId(); 
 }
 
-// ------------------------------------------------------------
-//     fonction pour renvoyer les lignes d une table
-// -----------------------------------------------------------
+// ------------------------------------------------------------------------
+//     fonction pour renvoyer les messageries de l utilisateur
+// ------------------------------------------------------------------------
+function messagerieReader($userId) {
+    // on instancie une connexion
+    $pdo = my_pdo_connexxion();   
+    // preparation de la requete preparee pour execution
+    $queryList = "SELECT `userId`, `userPseudo`, `userPicture` FROM `users` 
+                            WHERE userId IN (SELECT senderId FROM `messaging` 
+                            WHERE receiverId = :bp_userId
+                            GROUP BY senderId)";
+    try {
+        $statement = $pdo -> prepare($queryList, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+        // passage de l identifiant utilisateur
+        $statement->bindParam(':bp_userId', $userId, PDO::PARAM_STR);
+        // execution de la requete
+        $statement -> execute();
+        // on verifie s il y a des resultats
+        // --------------------------------------------------------
+        //var_dump($statement->fetchColumn()); die; 
+        // --------------------------------------------------------
+        if ($statement->rowCount() > 0) {
+            $myMessagerie = $statement->fetchAll();            
+        } else {
+            $myMessagerie = false;
+        }   
+        $statement -> closeCursor();
+    } catch(PDOException $ex) {         
+        $statement = null;
+        $pdo = null;
+        die("Secured"); 
+    }
+    // on retourne le resultat
+    return $myMessagerie; 
+}
+
+// ----------------------------------------------------------------------
+//     fonction pour renvoyer les lignes d une conversation
+// ----------------------------------------------------------------------
+function messageReader($idOne, $idTwo) {
+    // on instancie une connexion
+    $pdo = my_pdo_connexxion();   
+    // preparation de la requete preparee pour execution
+    $queryList = "SELECT `receiverId`,
+                                            `senderId`,
+                                            `create_at`,
+                                            `messageBody`
+                            FROM `messages` l
+                            INNER JOIN `messaging` m ON l.messagingId = m.messagingId
+                            WHERE (receiverId = :bp_idOne OR senderId = :bp_idOne)
+                            AND (receiverId = :bp_idTwo OR senderId =:bp_idTwo)"; 
+    try {
+        $statement = $pdo -> prepare($queryList, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+        // passage des identifiants des users en parametres
+        $statement->bindParam(':bp_idOne', $idOne, PDO::PARAM_STR);
+        $statement->bindParam(':bp_idTwo', $idTwo, PDO::PARAM_STR);
+        // execution de la requete
+        $statement -> execute();
+        // on verifie s il y a des resultats
+        // --------------------------------------------------------
+        //var_dump($statement->fetchColumn()); die; 
+        // --------------------------------------------------------
+        if ($statement->rowCount() > 0) {
+            $myReader = $statement->fetchAll();            
+        } else {
+            $myReader = false;
+        }   
+        $statement -> closeCursor();
+    } catch(PDOException $ex) {         
+        $statement = null;
+        $pdo = null;
+        die("Secured"); 
+    }
+    // on retourne le resultat
+    return $myReader; 
+}
+
+// --------------------------------------------------------------
+//     fonction pour renvoyer les lignes des contacts
+// --------------------------------------------------------------
 function dataReader($query) {
     // on instancie une connexion
     $pdo = my_pdo_connexxion();   
@@ -193,4 +270,56 @@ function dataReader($query) {
     }
     // on retourne le resultat
     return $myReader; 
+}
+
+// ------------------------------------------------------------------------------------------
+//    fonction pour creer une entree receiver-sender dans la table messaging
+// ------------------------------------------------------------------------------------------
+function createMessaging($arrayId) {
+    // on instancie une connexion
+    $pdo = my_pdo_connexxion();
+    // preparation de la requete pour creer un utilisateur
+    $sqlInsert = "INSERT INTO 
+                                `messaging`(`receiverId`, `senderId`) 
+                            VALUES 
+                                (?, ?)";
+    // preparation de la requete pour execution
+    try {
+        $statement = $pdo -> prepare($sqlInsert, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+        // execution de la requete
+        $statement -> execute($arrayId);
+        $statement -> closeCursor();
+    } catch(PDOException $ex) {         
+        $statement = null;
+        $pdo = null;
+        die("Secured"); 
+    }
+    // on retourne le dernier Id cree
+    return $pdo -> lastInsertId(); 
+}
+
+// ------------------------------------------------------------------------------------------
+//    fonction pour creer une entree receiver-sender dans la table messages
+// ------------------------------------------------------------------------------------------
+function createMessage($arrayMsg) {
+    // on instancie une connexion
+    $pdo = my_pdo_connexxion();
+    // preparation de la requete pour creer un utilisateur
+    $sqlInsert = "INSERT INTO 
+                                `messages`(`messagingId`, `create_at`, `messageBody`)
+                            VALUES 
+                                (?, now(), ?)";
+    // preparation de la requete pour execution
+    try {
+        $statement = $pdo -> prepare($sqlInsert, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+        // execution de la requete
+        $statement -> execute($arrayMsg);
+        $statement -> closeCursor();
+    } catch(PDOException $ex) {         
+        $statement = null;
+        $pdo = null;
+        die("Secured"); 
+    }
+    // on retourne le dernier Id cree
+    return $pdo -> lastInsertId(); 
 }
