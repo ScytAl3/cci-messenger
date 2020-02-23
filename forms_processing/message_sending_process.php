@@ -1,15 +1,19 @@
 <!-- php treatment -->
 <?php
-    // on démarre la session
-    session_start ();
     // import pdo fonction sur la database
     require '../pdo/pdo_db_functions.php';
-    // si les variables existes
+    // si le message a ete envoye
+    //
+    //var_dump($_POST); die;
+    //
     if (isset($_POST['sendMessage']))  {
         // on recupere les identifiants des participants
+        $theReceiver = $_POST['contactId'];
+        $theSender = $_POST['currentId'];        
+        // on les stock dans un tableau pour le passage de parametre dans la fonction qui recupere les messages de la conversation
         $senderAndReceiverId = [
-            $_SESSION['current_Id'],
-            $_SESSION['contactId']
+            $theReceiver,
+            $theSender            
         ];
         // ----------------------------------------------------------
         // on appelle la fonction qui creer la messagerie
@@ -26,13 +30,12 @@
             // on appelle la fonction qui insert le message dans la tables des messages
             // ----------------------------------------------------------------------------------------
             $newMessage = createMessage($arrayMsg);
-            // on redirige vers la page index.php avec les parametrres de session
-            $_SESSION['contactId'] = $_SESSION['contactId'];
-            $_SESSION['contactAvatar'] = $_SESSION['contactAvatar'];
-            $_SESSION['contactPseudo'] = $_SESSION['contactPseudo'];
-            // on passe egalement en parametres les informations envoyees pour ne pas devoir tout resaisir
+            // on demarre la session
+            session_start();
             header('location:/../chat_current.php');
         } else {
+             // on demarre la session
+            session_start();
             $_SESSION['showErrorSend'] = true;
             $_SESSION['errorMsgSend'] = "Problème lors de l'envoi du message' !";
             // on redirige vers la page de la conversation

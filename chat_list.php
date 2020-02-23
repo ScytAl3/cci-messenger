@@ -11,9 +11,9 @@ $current_session = $_SESSION['session'];
 // recuperation de l identifiant de l utilisateur connecte
 $current_Id = $_SESSION['current_Id'];
 // pseudo de l utilisateur connecte
-$userPseudo = $_SESSION['pseudo'];
+$userPseudo = $_SESSION['current_Pseudo'];
 // avatar de l utilisateur connecte
-$userAvatar = $_SESSION['profilePicture'];
+$userAvatar = $_SESSION['current_Avatar'];
 // on détruit les variables d erreur de login de notre session
 unset ($_SESSION['showErrorSignup'], $_SESSION['errorMsgSignUp']);
 // ---------------//----------------------
@@ -30,7 +30,7 @@ if (!isset($_SESSION['session'])) {
 		<!-- default Meta -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>CCI Messenger - Liste des derniers messages</title>
+		<title>CCI Messenger - Liste des messageries en cours</title>
 		<meta name="author" content="Franck Jakubowski">
 		<meta name="description" content="Une mini messagerie accessible après un login.">
 		<!-- 
@@ -60,7 +60,7 @@ if (!isset($_SESSION['session'])) {
             -----------------------------------//----------------------------------------->
             <?php   
                 // on appelle la fonction qui retourne le tableau de ligue 1
-                $messagerieList = messagerieReader($current_Id);          
+                $messagerieList = allMessaging($current_Id);          
                 //
                 //var_dump($messagerieList); die;
                 //
@@ -73,7 +73,7 @@ if (!isset($_SESSION['session'])) {
                 <!-- titre de la page avec le nombre de messagerie existantes -->
                 <div class="my-3 w-100">                                                                       
                     <div class="mx-auto px-3 py-2 text-center info-message-bg">
-                        <h2 class="card-title">Vous avez <strong><?= $countMessagerie ?></strong> messagerie(s)</h2>
+                        <h2 class="card-title">Vous avez <strong><?= $countMessagerie ?></strong> messagerie(s) en cours</h2>
                     </div>
                 </div>
                 <!-- /titre de la page avec le nombre de messagerie existantes --> 
@@ -89,15 +89,15 @@ if (!isset($_SESSION['session'])) {
                         <img class="avatar-circle" src="/img/profil_pictures/<?=$messagerieList[$contact]['userPicture']; ?>" alt="Photo du contact">         
                     </div>
                     <!-- /photo avatar -->
-                    <!-- pesudo & presentation -->
+                    <!-- pseudo & presentation -->
                     <div class="col-10 align-self-center">
                         <h2 class="card-title"><strong><?=$messagerieList[$contact]['userPseudo']; ?></strong></h2>
                         <h4 class="card-text text-truncate">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam quasi voluptate expedita aspernatur veniam, voluptatem qui praesentium consequatur quo, fugit dignissimos magni illo atque facere non fugiat provident maxime iste.</h4>
                     </div>
-                    <!-- /pesudo & presentation -->
+                    <!-- /pseudo & presentation -->
                     <!-- bouton pour afficher la messagerie selectionnee --> 
-                    <div class="col align-self-center text-right next-arrow">
-                        <a href="chat_current.php?contactId=<?=$messagerieList[$contact]['userId']; ?>&contactAvatar=<?=$messagerieList[$contact]['userPicture']; ?>&contactPseudo=<?=$messagerieList[$contact]['userPseudo']; ?>"><i class="fa fa-chevron-right fa-lg"></i></a>
+                    <div class="col align-self-center text-right">
+                        <a class ="direction-arrow"href="chat_current.php?contactId=<?=$messagerieList[$contact]['userId']; ?>&contactAvatar=<?=$messagerieList[$contact]['userPicture']; ?>&contactPseudo=<?=$messagerieList[$contact]['userPseudo']; ?>"><i class="fa fa-chevron-right fa-lg"></i></a>
                     </div>
                     <!-- /bouton pour afficher la messagerie selectionnee --> 
                 </div>

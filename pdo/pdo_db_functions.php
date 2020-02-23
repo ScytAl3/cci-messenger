@@ -168,14 +168,17 @@ function createUser($userData) {
 // ------------------------------------------------------------------------
 //     fonction pour renvoyer les messageries de l utilisateur
 // ------------------------------------------------------------------------
-function messagerieReader($userId) {
+function allMessaging($userId) {
     // on instancie une connexion
     $pdo = my_pdo_connexxion();   
     // preparation de la requete preparee pour execution
     $queryList = "SELECT `userId`, `userPseudo`, `userPicture` FROM `users` 
-                            WHERE userId IN (SELECT senderId FROM `messaging` 
-                            WHERE receiverId = :bp_userId
-                            GROUP BY senderId)";
+                            WHERE userId IN (
+                                            SELECT distinct receiverId FROM messaging
+                                            WHERE senderId = :bp_userId
+                                            UNION
+                                            SELECT distinct senderId FROM messaging
+                                            WHERE receiverId = :bp_userId)";
     try {
         $statement = $pdo -> prepare($queryList, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
         // passage de l identifiant utilisateur
@@ -204,7 +207,7 @@ function messagerieReader($userId) {
 // ----------------------------------------------------------------------
 //     fonction pour renvoyer les lignes d une conversation
 // ----------------------------------------------------------------------
-function messageReader($idOne, $idTwo) {
+function messageList($idOne, $idTwo) {
     // on instancie une connexion
     $pdo = my_pdo_connexxion();   
     // preparation de la requete preparee pour execution
@@ -242,15 +245,25 @@ function messageReader($idOne, $idTwo) {
     return $myReader; 
 }
 
-// --------------------------------------------------------------
-//     fonction pour renvoyer les lignes des contacts
-// --------------------------------------------------------------
-function dataReader($query) {
+// ----------------------------------------------------------------------
+//     fonction pour renvoyer la liste de contacts/utilisateurs
+// ----------------------------------------------------------------------
+function dataReader($currentId) {
     // on instancie une connexion
     $pdo = my_pdo_connexxion();   
+    // preparation de la requete preparee 
+    $queryList = "SELECT `userId`,
+                                            `userLastName`,
+                                            `userFirstName`,
+                                            `userPseudo`,
+                                            `userPicture`
+                            FROM users
+                            WHERE userId !=  :bp_userId";   
     // preparation de la requete pour execution
     try {
-        $statement = $pdo -> prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+        $statement = $pdo -> prepare($queryList, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+        // passage de l identifiant utilisateur
+        $statement->bindParam(':bp_userId', $currentId, PDO::PARAM_STR);
         // execution de la requete
         $statement -> execute();
         // on verifie s il y a des resultats

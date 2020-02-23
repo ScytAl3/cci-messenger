@@ -11,9 +11,9 @@ $current_session = $_SESSION['session'];
 // recuperation de l identifiant de l utilisateur connecte
 $current_Id = $_SESSION['current_Id'];
 // pseudo de l utilisateur connecte
-$userPseudo = $_SESSION['pseudo'];
+$userPseudo = $_SESSION['current_Pseudo'];
 // avatar de l utilisateur connecte
-$userAvatar = $_SESSION['profilePicture'];
+$userAvatar = $_SESSION['current_Avatar'];
 // ---------------//----------------------
 // variables de session
 // ---------------//----------------------
@@ -60,17 +60,9 @@ if (!isset($_SESSION['session'])) {
             <!---------------------------------//-----------------------------------------
                     debut script php pour recuperer les donnees dans la table
             -----------------------------------//----------------------------------------->
-            <?php             
-                // preparation de la requete preparee 
-                $queryList = "SELECT `userId`,
-                                                        `userLastName`,
-                                                        `userFirstName`,
-                                                        `userPseudo`,
-                                                        `userPicture`
-                                        FROM users
-                                        WHERE userId != $current_Id";        
+            <?php  
                 // on appelle la fonction qui retourne le tableau de ligue 1
-                $contactsList = dataReader($queryList);          
+                $contactsList = dataReader($current_Id);          
                 // si la requete retourne un objet
                 if ($contactsList) {
                     //  boucle pour creer les row 

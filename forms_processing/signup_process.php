@@ -60,7 +60,7 @@
         $userData = [
             $_POST['firstName'], 
             $_POST['lastName'], 
-            $_POST['pseudo'],
+            $_POST['current_Pseudo'],
             $_POST['email'], 
             $userEncryptPwd,
             $userSalt,
@@ -84,7 +84,7 @@
             // on passe en parametre le nouvel identifiant cree
             $_SESSION['current_Id'] = $newUser;
             $_SESSION['inputPseudo'] = $_POST['pseudo'];
-            $_SESSION['profilePicture'] = $_FILES['fileToUpload']['name'];
+            $_SESSION['current_Avatar'] = $_FILES['fileToUpload']['name'];
             $_SESSION['showMsg'] = true;
             $_SESSION['message'] = $userUpload;
             // on creer une variable de session login

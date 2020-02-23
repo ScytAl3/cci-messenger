@@ -7,9 +7,9 @@ session_start ();
 // login en cours
 $_SESSION['session'] = (isset($_SESSION['session'])) ? $_SESSION['session'] : false;
 // peudo de l utilisateur connecte
-$_SESSION['pseudo']  =  (isset($_SESSION['pseudo'])) ? $_SESSION['pseudo'] : '';
+$_SESSION['current_Pseudo']  =  (isset($_SESSION['current_Pseudo'])) ? $_SESSION['current_Pseudo'] : '';
 // avatar de l utilisateur connecte
-$_SESSION['profilePicture'] = (isset($_SESSION['profilePicture'])) ? $_SESSION['profilePicture'] : '';
+$_SESSION['current_Avatar'] = (isset($_SESSION['current_Avatar'])) ? $_SESSION['current_Avatar'] : '';
 // message d erreur de login
 $_SESSION['showErrorLog']  = (isset($_SESSION['showErrorLog'])) ? $_SESSION['showErrorLog'] : false;
 $_SESSION['errorMsgLog']  =  (isset($_SESSION['errorMsgLog'])) ? $_SESSION['errorMsgLog'] :'';

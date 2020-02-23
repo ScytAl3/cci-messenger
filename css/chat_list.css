@@ -9,6 +9,7 @@
     color: black;
 }
 
-.next-arrow {
+.direction-arrow {
     font-size: 1.3rem;
+    color: blue;
 }

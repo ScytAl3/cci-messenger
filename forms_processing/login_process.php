@@ -23,8 +23,8 @@
                 session_start ();
                 // on enregistre les paramètres de l utilisateur comme variables de session ($email et $password) et role
                 $_SESSION['current_Id'] = $testUser['userId'];
-                $_SESSION['pseudo'] = $testUser['userPseudo'];
-                $_SESSION['profilePicture'] = $testUser['userPicture']; 
+                $_SESSION['current_Pseudo'] = $testUser['userPseudo'];
+                $_SESSION['current_Avatar'] = $testUser['userPicture']; 
                 // on creer une variable de session login
                 $_SESSION['session'] = true;
                 // on le dirige vers la page d accueil

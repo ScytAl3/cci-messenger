@@ -22,10 +22,10 @@
             <span class="navbar-text">
                 <ul class="navbar-nav ml-auto">
                         <li class="<?= ($_SESSION['session']) ? 'visible ' : 'invisible '; ?> mr-3">
-                            <p>Bonjour&nbsp;<strong><em><?= $_SESSION['pseudo']; ?></em></strong></p>
+                            <p>Bonjour&nbsp;<strong><em><?= $_SESSION['current_Pseudo']; ?></em></strong></p>
                         </li>
                         <li>
-                            <img src="/img/profil_pictures/<?= ($_SESSION['session']) ? $_SESSION['profilePicture'] : 'avatar_default.png '; ?>" alt="Avatar default" class="avatar-circle">
+                            <img src="/img/profil_pictures/<?= ($_SESSION['session']) ? $_SESSION['current_Avatar'] : 'avatar_default.png '; ?>" alt="Avatar default" class="avatar-circle">
                         </li>
                         <li class="<?=($_SESSION['session']) ? 'visible ' : 'invisible '; ?> align-self-end">
                             <a class="my-2 my-sm-0 ml-1" href="/logout.php"><img src="/img/switch-off.png" alt="Logout" class="logout-button"></a>

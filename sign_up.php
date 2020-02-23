@@ -9,9 +9,9 @@ require 'pdo/pdo_db_functions.php';
 // login en cours
 $current_session = $_SESSION['session'];
 // pseudo de l utilisateur connecte
-$userPseudo = $_SESSION['pseudo'];
+$userPseudo = $_SESSION['current_Pseudo'];
 // avatar de l utilisateur connecte
-$userAvatar = $_SESSION['profilePicture'];
+$userAvatar = $_SESSION['current_Avatar'];
 // on détruit les variables d erreur de login de notre session
 unset ($_SESSION['showErrorLog'], $_SESSION['errorMsgLog']);
 // message d erreur de creation
