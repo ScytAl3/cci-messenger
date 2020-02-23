@@ -82,18 +82,24 @@ if (!isset($_SESSION['session'])) {
                 foreach ($messagerieList as $contact => $column) {
             ?>
             <!-- on recupere les valeurs des differents champs d une ligne -->             
-            <div class="card bg-light border-light mb-3">
-                <div class="card-header">
-                    <div class="d-flex  w-100">
-                        <img class="avatar-circle" src="/img/profil_pictures/<?=$messagerieList[$contact]['userPicture']; ?>" alt="Photo du contact">             
-                        <div class="ml-5 mr-5 align-self-center">
-                            <h2 class="card-title"><strong><?=$messagerieList[$contact]['userPseudo']; ?></strong></h2>
-                            <h4 class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam quasi voluptate expedita aspernatur veniam, voluptatem qui praesentium consequatur quo, fugit dignissimos magni illo atque facere non fugiat provident maxime iste.</h4>
-                        </div>
-                        <div class="ml-auto align-self-center next-arrow">
-                            <a href="chat_current.php?contactId=<?=$messagerieList[$contact]['userId']; ?>&contactAvatar=<?=$messagerieList[$contact]['userPicture']; ?>&contactPseudo=<?=$messagerieList[$contact]['userPseudo']; ?>"><i class="fa fa-chevron-right fa-lg"></i></a>
-                        </div>
+            <div class="container-fluid card-header mb-3">
+                <div class="row">
+                    <!-- photo avatar -->
+                    <div class="col">
+                        <img class="avatar-circle" src="/img/profil_pictures/<?=$messagerieList[$contact]['userPicture']; ?>" alt="Photo du contact">         
                     </div>
+                    <!-- /photo avatar -->
+                    <!-- pesudo & presentation -->
+                    <div class="col-10 align-self-center">
+                        <h2 class="card-title"><strong><?=$messagerieList[$contact]['userPseudo']; ?></strong></h2>
+                        <h4 class="card-text text-truncate">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam quasi voluptate expedita aspernatur veniam, voluptatem qui praesentium consequatur quo, fugit dignissimos magni illo atque facere non fugiat provident maxime iste.</h4>
+                    </div>
+                    <!-- /pesudo & presentation -->
+                    <!-- bouton pour afficher la messagerie selectionnee --> 
+                    <div class="col align-self-center text-right next-arrow">
+                        <a href="chat_current.php?contactId=<?=$messagerieList[$contact]['userId']; ?>&contactAvatar=<?=$messagerieList[$contact]['userPicture']; ?>&contactPseudo=<?=$messagerieList[$contact]['userPseudo']; ?>"><i class="fa fa-chevron-right fa-lg"></i></a>
+                    </div>
+                    <!-- /bouton pour afficher la messagerie selectionnee --> 
                 </div>
             </div>  
             <?php

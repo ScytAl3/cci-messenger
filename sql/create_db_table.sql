@@ -94,7 +94,7 @@ VALUES
     (1, '2020-02-20 13:29:09', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'),
     (2, '2020-02-20 13:35:49', 'Atque, voluptatem?'),
     (3, '2020-02-20 13:35:57', 'Velit qui nobis odio consectetur saepe, voluptates laboriosam temporibus, impedit quibusdam dolorum, ullam dolore eaque odit fugiat praesentium asperiores.'),
-    (4, '2020-02-20 13:37:07', 'At hoc in eo M.');
+    (4, '2020-02-20 13:37:07', 'At hoc in eo M.'),
     (5, '2020-02-20 13:47:20', 'De quibus cupio scire quid sentias. Traditur, inquit, ab Epicuro ratio neglegendi doloris.'),
     (6, '2020-02-20 13:48:17', 'Pork loin doner sausage turducken capicola.  Pork chop beef ribs turkey ball tip shankle, chicken short loin burgdoggen tongue.'),
     (7, '2020-02-20 13:51:09', 'Ham meatloaf beef jerky pork loin.'),
