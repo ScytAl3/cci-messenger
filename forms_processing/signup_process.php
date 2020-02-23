@@ -60,7 +60,7 @@
         $userData = [
             $_POST['firstName'], 
             $_POST['lastName'], 
-            $_POST['current_Pseudo'],
+            $_POST['pseudo'],
             $_POST['email'], 
             $userEncryptPwd,
             $userSalt,

@@ -108,7 +108,7 @@ if (!isset($_SESSION['session'])) {
             } else {
             ?>
             <div class="my-3 w-100">                                                                       
-                <div class="mr-4 px-3 py-2 text-center info-message-bg">
+                <div class="mx-auto px-3 py-2 text-center info-message-bg">
                     <h2 class="card-title">Vous n'avez aucune messagerie pour l'instant !</h2>
                 </div>
             </div> 

@@ -75,6 +75,10 @@ if (!isset($_SESSION['session'])) {
                 // on recupere les informations du dernier objet du tableau : le plus recent
                 $lastAvatar = (end($conversation)['senderId'] == $contact_Id) ? $_SESSION['contact_Avatar'] : $userAvatar;
                 $lastPseudo = (end($conversation)['senderId'] == $contact_Id) ? $_SESSION['contact_Pseudo'] : $userPseudo;
+                // on recupere la date renvoyee par MySQL
+                $lastDateTime = date_create(end($conversation)['create_at']);
+                // on appelle la fonction qui la transfome au format choisi
+                $formatDate = formatedDateTime($lastDateTime);
                 ?>
                 <!---------------------------------------------------------//------------------------------------------------------------
                         debut du container pour afficher les informations du dernier messages de la conversations
@@ -94,7 +98,7 @@ if (!isset($_SESSION['session'])) {
                         <!-- pseudo & presentation -->
                         <div class="col-10 align-self-center">
                             <h2 class="card-title"><strong><?=$lastPseudo ?></strong></h2>
-                            <h4 class="card-text">Dernier message le <?=end($conversation)['create_at'] ?></h4>
+                            <h4 class="card-text">Dernier message le <?=$formatDate ?></h4>
                         </div>
                         <!-- /pseudo & presentation -->
                     </div>
@@ -105,6 +109,7 @@ if (!isset($_SESSION['session'])) {
                 <?php 
                     //  boucle afficher les messages  de la conversation
                     foreach ($conversation as $message => $column) {
+                        $dateMessage = date_create($conversation[$message]['create_at']); 
                         if ($conversation[$message]['senderId'] == $current_Id ) {
                         ?> 
                         <!---------------------------------------------------------//------------------------------------------------------------
@@ -115,7 +120,7 @@ if (!isset($_SESSION['session'])) {
                                 <div>
                                     <div class="d-flex justify-content-end">                                               
                                         <div class="mr-4 px-3 py-2 text-right">
-                                            <p class="card-text"><?=$conversation[$message]['create_at']; ?></p>
+                                            <p class="card-text"><?=formatedDateTime($dateMessage) ?></p>
                                             <h3 class="card-title p-2 message-sender-bg"><?=$conversation[$message]['messageBody']; ?></h3>
                                         </div>
                                         <img class="avatar-circle" src="/img/profil_pictures/<?=$userAvatar ?>" alt="Avatar du contact">  
@@ -129,7 +134,7 @@ if (!isset($_SESSION['session'])) {
                                     <div class="d-flex">
                                         <img class="avatar-circle" src="/img/profil_pictures/<?=$_SESSION['contact_Avatar'] ?>" alt="Avatar utilisateur en cours">             
                                         <div class="ml-4">
-                                            <p class="card-text"><?=$conversation[$message]['create_at']; ?></p>
+                                            <p class="card-text"><?=formatedDateTime($dateMessage) ?></p>
                                             <h3 class="card-title p-2 message-receiver-bg"><?=$conversation[$message]['messageBody']; ?></h3>                                        
                                         </div>
                                     </div>                            

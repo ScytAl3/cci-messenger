@@ -6,32 +6,33 @@
         <a class="navbar-brand" href="/index.php">
             <img src="/img/logo/messenger_logo_black_150x151.png" alt="CCI Messenger logo">
         </a>
-        <h1 class="align-self-center"><strong>CCI MESSENGER</strong></h1>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav mr-auto <?= ($_SESSION['session']) ? 'visible ' : 'invisible '; ?>">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/chat_list.php">Messagerie</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="/contacts_list.php">Contacts
-                </li>
-            </ul>
-            <span class="navbar-text">
-                <ul class="navbar-nav ml-auto">
-                        <li class="<?= ($_SESSION['session']) ? 'visible ' : 'invisible '; ?> mr-3">
-                            <p>Bonjour&nbsp;<strong><em><?= $_SESSION['current_Pseudo']; ?></em></strong></p>
+        <div class="container">
+            <div class="d-flex flex-column">
+                <h1 class="align-self-center"><strong>CCI MESSENGER</strong></h1>
+                <div>
+                    <ul class="navbar-nav <?=($_SESSION['session']) ? 'visible ' : 'invisible ' ?>">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/chat_list.php">Messagerie</a>
                         </li>
-                        <li>
-                            <img src="/img/profil_pictures/<?= ($_SESSION['session']) ? $_SESSION['current_Avatar'] : 'avatar_default.png '; ?>" alt="Avatar default" class="avatar-circle">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/contacts_list.php">Contacts</a>
                         </li>
-                        <li class="<?=($_SESSION['session']) ? 'visible ' : 'invisible '; ?> align-self-end">
-                            <a class="my-2 my-sm-0 ml-1" href="/logout.php"><img src="/img/switch-off.png" alt="Logout" class="logout-button"></a>
-                        </li>
-                    </ul> 
-            </span>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container align-self-end">
+            <div class="col-md-auto ml-auto <?= ($_SESSION['session']) ? 'visible ' : 'invisible '; ?> align-self-end">
+                <h2 class="text-muted"><em>Bonjour</em><em>&nbsp;<strong><em><?= $_SESSION['current_Pseudo']; ?></em></strong><h2>
+            </div>
+            <div class="d-flex ml-2">
+                <div>
+                    <img src="/img/profil_pictures/<?= ($_SESSION['session']) ? $_SESSION['current_Avatar'] : 'avatar_default.png '; ?>" alt="Avatar default" class="avatar-circle">
+                </div>
+                    <div class="<?=($_SESSION['session']) ? 'visible ' : 'invisible '; ?> align-self-end">
+                        <a class="my-2 my-sm-0 ml-1" href="/logout.php"><img src="/img/switch-off.png" alt="Logout" class="logout-button"></a>
+                    </div>
+            </div>
         </div>
     </nav>
 </header>

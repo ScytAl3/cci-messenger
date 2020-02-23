@@ -1,11 +1,11 @@
 <!-- php treatment -->
 <?php
     // import pdo fonction sur la database
-    require '../pdo/pdo_db_functions.php';
-    // si le message a ete envoye
+    require '../pdo/pdo_db_functions.php';    
     //
     //var_dump($_POST); die;
     //
+    // si le message a ete envoye
     if (isset($_POST['sendMessage']))  {
         // on recupere les identifiants des participants
         $theReceiver = $_POST['contactId'];

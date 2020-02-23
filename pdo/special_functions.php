@@ -85,4 +85,15 @@ function UploadImage($image) {
         $errors[] = "Erreur lors du déplacement du fichier vers le répertoire de téléchargement !";
     }
     return($errors);
-}
+};
+
+// --------------------------------------------------------------
+// FONCTION : Format de la date a afficher
+// --------------------------------------------------------------
+function formatedDateTime($mysqlDate){
+    $date = date_format($mysqlDate,"d/m/Y");
+    $hour = date_format($mysqlDate, "H");
+    $minute = date_format($mysqlDate, "i");
+    // on retourne la au format desire
+    return  $date.' à '.$hour.'h'.$minute.'.';
+};
