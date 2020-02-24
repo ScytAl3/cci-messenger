@@ -1,11 +1,15 @@
 <?php
 // on démarre la session
 session_start ();
+// verification que l utilisateur ne passe pas par l URL
+if (isset($_SESSION['session']) && $_SESSION['session'] == false) {
+    header('location:index.php');
+}
 // import du script pdo des fonctions sur la database
 require 'pdo/pdo_db_functions.php';
-// ---------------------------------------
-// variables de session
-// ---------------------------------------
+// ----------------------------//---------------------------
+//                  variables de session
+// ---------------------------------------------------------
 // login en cours
 $current_session = $_SESSION['session'];
 // recuperation de l identifiant de l utilisateur connecte
@@ -14,13 +18,9 @@ $current_Id = $_SESSION['current_Id'];
 $userPseudo = $_SESSION['current_Pseudo'];
 // avatar de l utilisateur connecte
 $userAvatar = $_SESSION['current_Avatar'];
-// ---------------//----------------------
-// variables de session
-// ---------------//----------------------
-// verification que l utilisateur ne passe pas par l URL
-if (!isset($_SESSION['session'])) {
-    header('location:index.php');
-}
+// ----------------------------------------------------------
+//                  variables de session
+// ----------------------------//-----------------------------
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -38,7 +38,7 @@ if (!isset($_SESSION['session'])) {
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
             integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 		<!-- default stylesheet -->
-		<link href="css/contact.css" rel="stylesheet" type="text/css">
+		<link href="css/contact_list.css" rel="stylesheet" type="text/css">
         <!-- includes stylesheet -->
         <link href="css/header.css" rel="stylesheet" type="text/css">
     </head>    
@@ -48,8 +48,8 @@ if (!isset($_SESSION['session'])) {
         <?php include 'includes/header.php'; ?>
         <!-- /import du header -->
         <!--------------------------------------//------------------------------------------------
-                    debut du container pour afficher les derniers messages
-        ----------------------------------------//------------------------------------------------>   
+                debut du container pour afficher les utilisateurs avec qui discuter
+        ------------------------------------------------------------------------------------------>   
         <div class="container">  
             <!-- titre de la page -->
             <div class="p-3 mt-5 mb-2 bg-info text-white">    
@@ -59,13 +59,13 @@ if (!isset($_SESSION['session'])) {
             <br>        
             <!---------------------------------//-----------------------------------------
                     debut script php pour recuperer les donnees dans la table
-            -----------------------------------//----------------------------------------->
+            ------------------------------------------------------------------------------>
             <?php  
-                // on appelle la fonction qui retourne le tableau de ligue 1
+                // on appelle la fonction qui retourne la liste de contacts/utilisateurs
                 $contactsList = dataReader($current_Id);          
                 // si la requete retourne un objet
                 if ($contactsList) {
-                    //  boucle pour creer les row 
+                    // boucle pour creer les row 
                     foreach ($contactsList as $contact => $column) {
             ?>
             <div class="card bg-light border-success mb-3 w-100">
@@ -86,16 +86,24 @@ if (!isset($_SESSION['session'])) {
             } 
             // si la requete ne retourne rien
             } else {
-                echo 'Aucune données dans la table classement !';
+            ?>
+            <!-- affiche un message si aucun utilisateur n a ete trouve -->
+            <div class="my-3 w-100">                                                                       
+                <div class="mx-auto px-3 py-2 text-center info-message-bg">
+                    <h2 class="card-title">Il n'y a aucun utilisateurs dans la base de données !</h2>
+                </div>
+            </div> 
+            <!-- /affiche un message si aucun utilisateur n a ete trouve -->
+            <?php
             } 
             ?>
+            <!----------------------------------------------------------------------------
+                    debut script php pour recuperer les donnees dans la table
+            -----------------------------------//----------------------------------------->
         </div>
-        <!--------------------------------------//------------------------------------------------
-                    debut du container pour afficher les derniers messages
+        <!----------------------------------------------------------------------------------------
+                debut du container pour afficher les utilisateurs avec qui discuter
         ----------------------------------------//------------------------------------------------> 
-<!-- ---------------------//----------------------------- -->
-<?php var_dump($_SESSION); ?>
-<!-- ----------------- ---//----------------------------- -->
         <!-- import scripts -->
 		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
 			integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

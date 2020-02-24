@@ -1,11 +1,15 @@
 <?php
 // on démarre la session
 session_start ();
+// verification que l utilisateur ne passe pas par l URL
+if (isset($_SESSION['session']) && $_SESSION['session'] == false) {
+    header('location:index.php');
+}
 // import du script pdo des fonctions sur la database
 require 'pdo/pdo_db_functions.php';
-// ---------------------------------------
-// variables de session
-// ---------------------------------------
+// ----------------------------//---------------------------
+//                  variables de session
+// ---------------------------------------------------------
 // login en cours
 $current_session = $_SESSION['session'];
 // recuperation de l identifiant de l utilisateur connecte
@@ -16,13 +20,9 @@ $userPseudo = $_SESSION['current_Pseudo'];
 $userAvatar = $_SESSION['current_Avatar'];
 // on détruit les variables d erreur de login de notre session
 unset ($_SESSION['showErrorSignup'], $_SESSION['errorMsgSignUp']);
-// ---------------//----------------------
-// variables de session
-// ---------------//----------------------
-// verification que l utilisateur ne passe pas par l URL
-if (!isset($_SESSION['session'])) {
-    header('location:index.php');
-}
+// ----------------------------------------------------------
+//                  variables de session
+// ----------------------------//-----------------------------
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -53,22 +53,18 @@ if (!isset($_SESSION['session'])) {
         <!-- /import du header -->
         <!--------------------------------------//------------------------------------------------
                             debut du container pour afficher les messageries
-        ----------------------------------------//------------------------------------------------>           
+        ------------------------------------------------------------------------------------------>           
         <div class="container-fluid">            
             <!---------------------------------//-----------------------------------------
                     debut script php pour recuperer les donnees dans la table
-            -----------------------------------//----------------------------------------->
+            ------------------------------------------------------------------------------>
             <?php   
-                // on appelle la fonction qui retourne le tableau de ligue 1
-                $messagerieList = allMessaging($current_Id);          
-                //
-                //var_dump($messagerieList); die;
-                //
+                // on appelle la fonction qui retourne toutes les messageries de l utilisateur qui se connecte
+                $messagerieList = allMessaging($current_Id);   
                 // si la requete retourne un objet
                 if ($messagerieList) {
-                    // on compte le nombre d'item dans l array
+                    // on compte le nombre d'item dans l array pour afficher un message avec le nombre de messageries en cours
                     $countMessagerie = count($messagerieList); 
-                    // on affiche un message avec le nombre de messageries
                 ?>
                 <!-- titre de la page avec le nombre de messagerie existantes -->
                 <div class="my-3 w-100">                                                                       
@@ -78,7 +74,7 @@ if (!isset($_SESSION['session'])) {
                 </div>
                 <!-- /titre de la page avec le nombre de messagerie existantes --> 
             <?php 
-                //  boucle pour afficher les messageries
+                //  boucle pour afficher les differentes messageries
                 foreach ($messagerieList as $contact => $column) {
             ?>
             <!-- on recupere les valeurs des differents champs d une ligne -->             
@@ -107,23 +103,30 @@ if (!isset($_SESSION['session'])) {
             // si la requete ne retourne rien
             } else {
             ?>
+            <!-- affiche un message si aucune messagerie n a ete trouvee -->
             <div class="my-3 w-100">                                                                       
                 <div class="mx-auto px-3 py-2 text-center info-message-bg">
                     <h2 class="card-title">Vous n'avez aucune messagerie pour l'instant !</h2>
                 </div>
             </div> 
+            <!-- /affiche un message si aucune messagerie n a ete trouvee -->
             <?php
             }
             ?>            
-            <!-- lien vers la liste des utilisateurs -->
+            <!----------------------------------------------------------------------------
+                    debut script php pour recuperer les donnees dans la table
+            -----------------------------------//----------------------------------------->
+
+            <!-- bouton qui dirige vers la liste des utilisateurs pour demarrer une messagerie avec d autres utilisateurs-->
             <div class="mb-2 mx-auto">
                 <a class="btn btn-success btn-lg btn-block" href="/contacts_list.php">- Nouvelle conversation -</a>
             </div> 
-            <!-- /lien vers la liste des utilisateurs -->
+            <!-- /bouton qui dirige vers la liste des utilisateurs pour demarrer une messagerie avec d autres utilisateurs-->
         </div>
-<!-- ---------------------//----------------------------- -->
-<?php var_dump($_SESSION); ?>
-<!-- ----------------- ---//----------------------------- -->
+        
+         <!----------------------------------------------------------------------------------------
+                            debut du container pour afficher les messageries
+        -----------------------------------------//------------------------------------------------->   
         <!-- import scripts -->
 		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
 			integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

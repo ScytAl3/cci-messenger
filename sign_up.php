@@ -3,9 +3,9 @@
 session_start ();
 // import du script pdo des fonctions sur la database
 require 'pdo/pdo_db_functions.php';
-// ---------------------------------------
-// variables de session
-// ---------------------------------------
+// ----------------------------//---------------------------
+//                  variables de session
+// ---------------------------------------------------------
 // login en cours
 $current_session = $_SESSION['session'];
 // pseudo de l utilisateur connecte
@@ -22,13 +22,9 @@ $userLastName = (isset($_SESSION['inputLastName'])) ? $_SESSION['inputLastName']
 $userFirstName = (isset($_SESSION['inputFirstName'])) ? $_SESSION['inputFirstName'] : '';
 $userPseudo = (isset($_SESSION['inputPseudo'])) ? $_SESSION['inputPseudo'] : '';
 $userEmail = (isset($_SESSION['inputMail'])) ? $_SESSION['inputMail'] : '';
-// ---------------//----------------------
-// variables de session
-// ---------------//----------------------
-// verification que l utilisateur ne passe pas par l URL
-if (!isset($_SESSION['session'])) {
-    header('location:index.php');
-}
+// ----------------------------------------------------------
+//                  variables de session
+// ----------------------------//-----------------------------
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -56,11 +52,12 @@ if (!isset($_SESSION['session'])) {
         <?php include 'includes/header.php'; ?>
         <!-- /import du header -->
         <!-----------------------------------//-----------------------------------------
-                 debut du container de la page du formulaire d inscription
-        -------------------------------------//----------------------------------------->
+                 	debut du container global du formulaire d inscription
+        -------------------------------------------------------------------------------->
         <div class="d-md-flex flex-md-equal w-100 mt-5 pl-md-3 justify-content-center">						            
-            <div class="mr-md-3 px-md-5 col-md-8 bg-info">  			
-				<!-- titre du formulaire -->              
+            <div class="mr-md-3 px-md-5 col-md-8 bg-info">  
+
+				<!-- titre de la section du formulaire -->              
 				<div class="py-2 text-center">
 					<h1><strong>INSCRIPTION</strong></h1>
 					<!-- area pour afficher un message d erreur lors de la creation -->
@@ -70,15 +67,17 @@ if (!isset($_SESSION['session'])) {
 					<!-- /area pour afficher un message d erreur lors de la creation -->
 					<hr class="mb-1">
 				</div>
-                <!-- titre du formulaire -->
+                <!-- /titre de la section du formulaire -->
 
-				<!-- section pour afficher le formulaire d inscription -->
+				<!----------------------------------------//--------------------------------------------------
+                                                debut du container du formulaire de login
+                ---------------------------------------------------------------------------------------------->
 				<form class="form-inscription" action="forms_processing/signup_process.php" method="POST" enctype="multipart/form-data">
-                    <!-- champs des saisies -->	
+                    
                     <!-- photo avatar -->
 					<div class="mb-4">
 						<label for="fileToUpload">Votre photo de profil</label>
-                        <input class="form-control" id=" fileToUpload" name="fileToUpload" type="file" >
+                        <input class="form-control" id=" fileToUpload" name="fileToUpload" type="file" required>
                     </div>
                     
                     <!-- nom -->
@@ -122,10 +121,10 @@ if (!isset($_SESSION['session'])) {
 						<input class="form-control" name="confirm_password" id="confirm_password"
 							type="password"  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
 					</div>
-					<!-- /champs des saisies -->
 
 					<hr class="my-4">
-					<!-- zone des boutons -->
+
+					<!-- buttons area -->
 					<div class="container mb-3">
 						<div class="row justify-content-center">
 							<!-- submit button -->
@@ -138,15 +137,16 @@ if (!isset($_SESSION['session'])) {
 							</div>
 						</div>
 					</div>
+					<!-- /buttons area -->
 				</form>
-				<!-- /section pour afficher le formulaire d inscription -->
+				<!--------------------------------------------------------------------------------------------
+                                            /debut du container du formulaire de login
+                -------------------------------------------//--------------------------------------------------->
             </div>
-            <!-- /section pour afficher le formulaire de login -->
         </div>
-        <!-- /container de la page de login -->
-<!-- ---------------------//----------------------------- -->
-<?php var_dump($_SESSION); ?>
-<!-- ----------------- ---//----------------------------- -->
+        <!------------------------------------------------------------------------------
+                 	/debut du container global du formulaire d inscription
+        -------------------------------------//----------------------------------------->
         <!-- import scripts -->
 		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
 			integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
@@ -157,7 +157,6 @@ if (!isset($_SESSION['session'])) {
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
 			integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 			crossorigin="anonymous"></script>
-		<!-- /import scripts -->
-        
+		<!-- /import scripts -->        
 	</body>
 </html>

@@ -1,13 +1,10 @@
 <!-- php treatment -->
 <?php
     // import pdo fonction sur la database
-    require '../pdo/pdo_db_functions.php';    
-    //
-    //var_dump($_POST); die;
-    //
-    // si le message a ete envoye
+    require '../pdo/pdo_db_functions.php';  
+    // si le formulaire du message a ete envoye
     if (isset($_POST['sendMessage']))  {
-        // on recupere les identifiants des participants
+        // on recupere les identifiants des participants qui ont ete envoye cache avec le message
         $theReceiver = $_POST['contactId'];
         $theSender = $_POST['currentId'];        
         // on les stock dans un tableau pour le passage de parametre dans la fonction qui recupere les messages de la conversation

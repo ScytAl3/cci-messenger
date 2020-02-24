@@ -1,21 +1,21 @@
 <?php
 // on démarre la session
 session_start ();
-// ---------------//------------------------
-// variables de session
-// ---------------//------------------------
-// login en cours
+// ----------------------------//---------------------------
+//                  variables de session
+// ---------------------------------------------------------
+// login en cours - utilisateur valide en cours de session
 $_SESSION['session'] = (isset($_SESSION['session'])) ? $_SESSION['session'] : false;
-// peudo de l utilisateur connecte
+// peudo de l utilisateur connecte en cours de session
 $_SESSION['current_Pseudo']  =  (isset($_SESSION['current_Pseudo'])) ? $_SESSION['current_Pseudo'] : '';
-// avatar de l utilisateur connecte
+// avatar de l utilisateur connecte en cours de session
 $_SESSION['current_Avatar'] = (isset($_SESSION['current_Avatar'])) ? $_SESSION['current_Avatar'] : '';
 // message d erreur de login
 $_SESSION['showErrorLog']  = (isset($_SESSION['showErrorLog'])) ? $_SESSION['showErrorLog'] : false;
-$_SESSION['errorMsgLog']  =  (isset($_SESSION['errorMsgLog'])) ? $_SESSION['errorMsgLog'] :'';
-// ---------------//------------------------
-// variables de session
-// ---------------//------------------------
+$_SESSION['errorMsgLog']  =  (isset($_SESSION['errorMsgLog'])) ? $_SESSION['errorMsgLog'] : '';
+// ----------------------------------------------------------
+//                  variables de session
+// ----------------------------//-----------------------------
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -44,19 +44,17 @@ $_SESSION['errorMsgLog']  =  (isset($_SESSION['errorMsgLog'])) ? $_SESSION['erro
         <!-- import du header -->
         <?php include 'includes/header.php'; ?>
         <!-- /import du header -->
-        <!------------------------------//--------------------------------------------
-                            debut du container de la page de login 
-        --------------------------------//-------------------------------------------->   
-        <!-- container de la page de login -->   
+        <!--------------------------------------//--------------------------------------------------
+                        debut du container global pour le formulaire de login
+        -------------------------------------------------------------------------------------------> 
         <div class="container">
-            <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3 justify-content-center">        
-                <!-- section pour afficher le formulaire de login -->
+            <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3 justify-content-center">                        
                 <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">                
                     <div class="my-3 p-3">
-                        <!-- message pour tester la connexion a la base de donnees -->
+                        <!-- message d information pour tester la connexion a la base de donnees -->
                         <div class="show-bg">
                             <?php require 'pdo/pdo_db_connect.php'; 
-                                // on instancie une connexion
+                                // on instancie une connexion pour verifie s il n y a pas d erreurs avec les parametres de connexion
                                 $pdo = my_pdo_connexxion();
                                 if ($pdo) {
                                     echo 'Connexion réussie à la base de données';
@@ -65,20 +63,22 @@ $_SESSION['errorMsgLog']  =  (isset($_SESSION['errorMsgLog'])) ? $_SESSION['erro
                                 }
                             ?>                            
                             </div>
-                        <!-- /message d information pour la connexion a la base de donnees -->
+                        <!-- /message d information pour tester la connexion a la base de donnees -->
 
                         <!-- titre de la section du formulaire -->
                         <div class="text-center mx-auto">
                             <h2 class="display-4 font-weight-bold text-muted">Accéder à votre messagerie</h2>                       
-                            <!-- area pour afficher un message d erreur lors du login -->
+                            <!-- area pour afficher un message d erreur lors d un mauvais login : pseudo inexistant ou erreud password -->
                             <div class="show-bg<?= ($_SESSION['showErrorLog'])? '' : 'visible'; ?> text-center mt-5">
                                 <p class="lead mt-2"><span><?= $_SESSION['errorMsgLog']; ?></span></p>
                             </div>
-                            <!-- /area pour afficher un message d erreur lors du login -->
+                            <!-- /area pour afficher un message d erreur lors du login : pseudo inexistant ou erreud password -->
                         </div>
                         <!-- /titre de la section du formulaire -->
 
-                        <!-- formulaire de connexion -->
+                        <!----------------------------------------//--------------------------------------------------
+                                                        debut du container du formulaire de login
+                        ---------------------------------------------------------------------------------------------->
                         <div class="<?=($_SESSION['session'])? 'invisible' : 'visible' ; ?>">
                             <form class="form-signin" method="POST" action="forms_processing/login_process.php">
                                 <!-- email input -->
@@ -96,16 +96,16 @@ $_SESSION['errorMsgLog']  =  (isset($_SESSION['errorMsgLog'])) ? $_SESSION['erro
                                 </div>
                             </form>
                         </div>
-                        <!-- /formulaire de connexion -->
+                        <!--------------------------------------------------------------------------------------------
+                                                           /debut du container formulaire de login
+                        -------------------------------------------//--------------------------------------------------->
                     </div>            
-                </div>
-                <!-- /section pour afficher le formulaire de login -->
+                </div>                
             </div>
         </div>
-        <!-- /container de la page de login -->
-<!-- ---------------------//----------------------------- -->
-<?php var_dump($_SESSION); ?>
-<!-- ----------------- ---//----------------------------- -->
+        <!------------------------------------------------------------------------------------------
+                    debut du container global pour le formulaire de login
+        ----------------------------------------//--------------------------------------------------->        
         <!-- import scripts -->
 		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
 			integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
@@ -116,7 +116,6 @@ $_SESSION['errorMsgLog']  =  (isset($_SESSION['errorMsgLog'])) ? $_SESSION['erro
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
 			integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 			crossorigin="anonymous"></script>
-		<!-- /import scripts -->
-        
+		<!-- /import scripts -->        
 	</body>
 </html>

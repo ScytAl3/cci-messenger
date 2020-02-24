@@ -1,11 +1,15 @@
 <?php
 // on démarre la session
 session_start ();
+// verification que l utilisateur ne passe pas par l URL
+if (isset($_SESSION['session']) && $_SESSION['session'] == false) {
+    header('location:index.php');
+}
 // import du script pdo des fonctions sur la database
 require 'pdo/pdo_db_functions.php';
-// ---------------------------------------
-// variables de session
-// ---------------------------------------
+// ----------------------------//---------------------------
+//                  variables de session
+// ---------------------------------------------------------
 // login en cours
 $current_session = $_SESSION['session'];
 // recuperation de l identifiant de l utilisateur connecte
@@ -18,12 +22,9 @@ $userAvatar = $_SESSION['current_Avatar'];
 $_SESSION['contact_Id'] = (isset($_GET['contactId'])) ? $_GET['contactId'] : $_SESSION['contact_Id'];
 $_SESSION['contact_Avatar'] = (isset($_GET['contactAvatar'])) ? $_GET['contactAvatar'] : $_SESSION['contact_Avatar'];
 $_SESSION['contact_Pseudo'] = (isset($_GET['contactPseudo'])) ? $_GET['contactPseudo'] : $_SESSION['contact_Pseudo'];
-// ---------------//----------------------
-// variables de session
-// ---------------//----------------------
-if (!isset($_SESSION['session'])) {
-    header('location:index.php');
-}
+/// ----------------------------------------------------------
+//                  variables de session
+// ----------------------------//-----------------------------
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -52,9 +53,9 @@ if (!isset($_SESSION['session'])) {
         <!-- import du header -->
         <?php include 'includes/header.php'; ?>
         <!-- /import du header -->
-        <!----------------------------------------------------------------------------------------
+        <!--------------------------------------//--------------------------------------------------
                     debut du container global pour afficher la conversation en cours
-        ----------------------------------------//------------------------------------------------>   
+        ------------------------------------------------------------------------------------------->   
         <div class="container-fluid mt-5">
             <!--------------------------------------//---------------------------------------------
                 ## debut script php pour recuperer les donnees de la conversation ##
@@ -62,17 +63,11 @@ if (!isset($_SESSION['session'])) {
             <?php
                 // on recupere la variable de session de l identifant du contact
                 $contact_Id = $_SESSION['contact_Id'];
-                // on appelle la fonction qui retourne les donnees
-                $conversation = messageList($current_Id, $contact_Id);               
-                //
-                //var_dump($conversation); die;
-                //       
+                // on appelle la fonction qui retourne les messages de la conversation
+                $conversation = messageList($current_Id, $contact_Id); 
                 // si la requete retourne un objet
                 if ($conversation) {
-                //
-                //var_dump(end($conversation)); die;
-                //
-                // on recupere les informations du dernier objet du tableau : le plus recent
+                // on recupere les informations du dernier objet (message) du tableau $conversation : le plus recent
                 $lastAvatar = (end($conversation)['senderId'] == $contact_Id) ? $_SESSION['contact_Avatar'] : $userAvatar;
                 $lastPseudo = (end($conversation)['senderId'] == $contact_Id) ? $_SESSION['contact_Pseudo'] : $userPseudo;
                 // on recupere la date renvoyee par MySQL
@@ -106,6 +101,7 @@ if (!isset($_SESSION['session'])) {
                 <!-----------------------------------------------------------------------------------------------------------------------
                         /debut du container pour afficher les informations du dernier messages de la conversations
                 ------------------------------------------------------------//----------------------------------------------------------->
+                <div class="container">
                 <?php 
                     //  boucle afficher les messages  de la conversation
                     foreach ($conversation as $message => $column) {
@@ -114,8 +110,7 @@ if (!isset($_SESSION['session'])) {
                         ?> 
                         <!---------------------------------------------------------//------------------------------------------------------------
                                                                 debut du container pour afficher la conversations
-                        ------------------------------------------------------------------------------------------------------------------------->
-                        <div class="container">
+                        ------------------------------------------------------------------------------------------------------------------------->                        
                             <div class="mb-3 w-75 ml-auto">
                                 <div>
                                     <div class="d-flex justify-content-end">                                               
@@ -193,9 +188,6 @@ if (!isset($_SESSION['session'])) {
         <!----------------------------------------------------------------------------------------
                     /debut du container global pour afficher la conversation en cours
         ----------------------------------------//------------------------------------------------>
-<!-- ---------------------//----------------------------- -->
-<?php var_dump($_SESSION); ?>
-<!-- ----------------- ---//----------------------------- -->
         <!-- import scripts -->
 		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
 			integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
@@ -206,7 +198,6 @@ if (!isset($_SESSION['session'])) {
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
 			integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 			crossorigin="anonymous"></script>
-		<!-- /import scripts -->
-        
+		<!-- /import scripts -->        
 	</body>
 </html>
