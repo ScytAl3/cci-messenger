@@ -77,34 +77,34 @@ $userEmail = (isset($_SESSION['inputMail'])) ? $_SESSION['inputMail'] : '';
                     <!-- photo avatar -->
 					<div class="mb-4">
 						<label for="fileToUpload">Votre photo de profil</label>
-                        <input class="form-control" id=" fileToUpload" name="fileToUpload" type="file" required>
+                        <input class="form-control" id=" fileToUpload" name="fileToUpload"  type="file" required>
                     </div>
                     
                     <!-- nom -->
 					<div class="mb-4">
 						<label for="lastName">Nom</label>
-						<input class="form-control" name="lastName" id="lastName" type="text" value="<?=$userLastName; ?>" required
-							pattern="^[A-Z][a-z -]{1,75}$">
+						<input class="form-control" name="lastName" id="lastName" type="text" value="<?=$userLastName ?>" required
+							pattern="^[A-Za-z -]{1,75}$">
                     </div>	
                     		
 					<!-- prenom -->
 					<div class="mb-4">
 						<label for="firstName">Prénom</label>
-						<input class="form-control" name="firstName" id="firstName" type="text" value="<?=$userFirstName; ?>" required
-							pattern="^[A-Z][a-z -]{1,75}$">
+						<input class="form-control" name="firstName" id="firstName" type="text" value="<?=$userFirstName ?>" required
+							pattern="^[A-Za-z -]{1,75}$">
                     </div>		
                     
                     <!-- pseudo -->
 					<div class="mb-4">
 						<label for="pseudo">Pseudo</label>
-						<input class="form-control" name="pseudo" id="pseudo" type="text" value="<?=$userPseudo; ?>" required >
+						<input class="form-control" name="pseudo" id="pseudo" type="text" value="<?=$userPseudo ?>" required pattern="^[A-Za-z -_]{1,75}$">
 					</div>
 
 					<!-- email -->
 					<div class="mb-4">
 						<label for="email">Courriel</label>
 						<input class="form-control" type="email" name="email" id="email"
-							placeholder="utilisateur@domaine.fr" value="<?=$userEmail; ?>" required
+							placeholder="utilisateur@domaine.fr" value="<?=$userEmail ?>" required
 							pattern="^[\w!#$%&'*+/=?`{|}~^-]+(?:\.[\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$">
 						<span class="invalid-feedback" aria-live="polite">
 					</div>

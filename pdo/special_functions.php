@@ -61,34 +61,36 @@ function UploadImage($image) {
     // on verifie si le fichier image est une vrai image ou une fausse image
     $check = getimagesize($image["tmp_name"]);
     if($check == false) {
-        $errors[] = "Le fichier n'est pas une image !";
+        $errors[]= "Le fichier n'est pas une image !";
+        return($errors);
     }
     // on verifie que le fichier image n existe pas deja
     if (file_exists($target_file)) {
-        $errors[] =  "Le fichier existe déjà dans le dossier $target_file !";
+        $errors[]=  "Le fichier existe déjà dans le dossier $target_file !";
+        return($errors);
     }
     // on verifie la taille du fichier
     if ($image["size"] > 2097152) {
-        $errors[] = "Le fichier ne doit pas dépasser 2 MB !";
+        $errors[]= "Le fichier ne doit pas dépasser 2 MB !";
+        return($errors);
     }    
     // extensions autorisees pour l upload des images
     $allowedImageExtensions= array("jpeg","jpg","png");
     // on verifie si l extension est valide
     if (in_array($imageFileType, $allowedImageExtensions) === false){
-        $errors[] = "Extension non autorisée, choisissez un fichier JPEG ou PNG !";
+        $errors[]= "Extension non autorisée, choisissez un fichier JPEG ou PNG !";
+        return($errors);
     }
-    // si aucune erreur
+    // si aucune erreur : array vide
     if(empty($errors) == true) {
         move_uploaded_file($image["tmp_name"], $target_file);
-        $errors[] =  "Success";
     } else {
         $errors[] = "Erreur lors du déplacement du fichier vers le répertoire de téléchargement !";
-    }
-    return($errors);
+    }  
 };
 
 // --------------------------------------------------------------
-// FONCTION : Format de la date a afficher
+// FONCTION : Formatage de la date a afficher
 // --------------------------------------------------------------
 function formatedDateTime($mysqlDate){
     $date = date_format($mysqlDate,"d/m/Y");
