@@ -34,7 +34,7 @@ function pseudoExiste($pseudoToTest) {
     } catch(PDOException $ex) {         
         $statement = null;
         $pdo = null;
-        die("Secured"); 
+        $msg = 'ERREUR PDO check pseudo...' . $ex->getMessage(); die($msg);
     }
     $statement = null;
     $pdo = null;
@@ -72,7 +72,7 @@ function emailExiste($emailToTest) {
     } catch(PDOException $ex) {         
         $statement = null;
         $pdo = null;
-        die("Secured"); 
+        $msg = 'ERREUR PDO check email...' . $ex->getMessage(); die($msg);
     }
     $statement = null;
     $pdo = null;
@@ -131,7 +131,7 @@ function dataUser($userId) {
     } catch(PDOException $ex) {         
         $statement = null;
         $pdo = null;
-        die("Secured"); 
+        $msg = 'ERREUR PDO data user...' . $ex->getMessage(); die($msg); 
     }
     $statement = null;
     $pdo = null;
@@ -159,7 +159,7 @@ function createUser($userData) {
     } catch(PDOException $ex) {         
         $statement = null;
         $pdo = null;
-        die("Secured"); 
+        $msg = 'ERREUR PDO create user...' . $ex->getMessage(); die($msg);
     }
     // on retourne le dernier Id cree
     return $pdo -> lastInsertId(); 
@@ -198,7 +198,7 @@ function allMessaging($userId) {
     } catch(PDOException $ex) {         
         $statement = null;
         $pdo = null;
-        die("Secured"); 
+        $msg = 'ERREUR PDO messaging list...' . $ex->getMessage(); die($msg);
     }
     // on retourne le resultat
     return $myMessagerie; 
@@ -239,7 +239,7 @@ function messageList($idOne, $idTwo) {
     } catch(PDOException $ex) {         
         $statement = null;
         $pdo = null;
-        die("Secured"); 
+        $msg = 'ERREUR PDO conversation detail...' . $ex->getMessage(); die($msg);
     }
     // on retourne le resultat
     return $myReader; 
@@ -279,7 +279,7 @@ function dataReader($currentId) {
     } catch(PDOException $ex) {         
         $statement = null;
         $pdo = null;
-        die("Secured"); 
+        $msg = 'ERREUR PDO users list...' . $ex->getMessage(); die($msg);
     }
     // on retourne le resultat
     return $myReader; 
@@ -305,7 +305,7 @@ function createMessaging($arrayId) {
     } catch(PDOException $ex) {         
         $statement = null;
         $pdo = null;
-        die("Secured"); 
+        $msg = 'ERREUR PDO create messaging...' . $ex->getMessage(); die($msg);
     }
     // on retourne le dernier Id cree
     return $pdo -> lastInsertId(); 
@@ -331,7 +331,7 @@ function createMessage($arrayMsg) {
     } catch(PDOException $ex) {         
         $statement = null;
         $pdo = null;
-        die("Secured"); 
+        $msg = 'ERREUR PDO create message...' . $ex->getMessage(); die($msg);
     }
     // on retourne le dernier Id cree
     return $pdo -> lastInsertId(); 
