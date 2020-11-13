@@ -156,13 +156,14 @@ function createUser($userData) {
         // execution de la requete
         $statement -> execute($userData);
         $statement -> closeCursor();
+        $pdo->lastInsertId();
     } catch(PDOException $ex) {         
         $statement = null;
         $pdo = null;
         $msg = 'ERREUR PDO create user...' . $ex->getMessage(); die($msg);
     }
     // on retourne le dernier Id cree
-    return $pdo -> lastInsertId(); 
+    return $pdo; 
 }
 
 // ------------------------------------------------------------------------
@@ -302,13 +303,14 @@ function createMessaging($arrayId) {
         // execution de la requete
         $statement -> execute($arrayId);
         $statement -> closeCursor();
+        $pdo->lastInsertId();
     } catch(PDOException $ex) {         
         $statement = null;
         $pdo = null;
         $msg = 'ERREUR PDO create messaging...' . $ex->getMessage(); die($msg);
     }
     // on retourne le dernier Id cree
-    return $pdo -> lastInsertId(); 
+    return $pdo; 
 }
 
 // ------------------------------------------------------------------------------------------
@@ -328,11 +330,12 @@ function createMessage($arrayMsg) {
         // execution de la requete
         $statement -> execute($arrayMsg);
         $statement -> closeCursor();
+        $pdo->lastInsertId();
     } catch(PDOException $ex) {         
         $statement = null;
         $pdo = null;
         $msg = 'ERREUR PDO create message...' . $ex->getMessage(); die($msg);
     }
     // on retourne le dernier Id cree
-    return $pdo -> lastInsertId(); 
+    return $pdo; 
 }
