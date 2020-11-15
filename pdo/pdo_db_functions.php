@@ -156,7 +156,7 @@ function createUser($userData) {
         // execution de la requete
         $statement -> execute($userData);
         $statement -> closeCursor();
-        $pdo->lastInsertId();
+        $pdo = $pdo->lastInsertId();
     } catch(PDOException $ex) {         
         $statement = null;
         $pdo = null;
@@ -303,7 +303,7 @@ function createMessaging($arrayId) {
         // execution de la requete
         $statement -> execute($arrayId);
         $statement -> closeCursor();
-        $pdo->lastInsertId();
+        $pdo = $pdo->lastInsertId();
     } catch(PDOException $ex) {         
         $statement = null;
         $pdo = null;
@@ -330,7 +330,7 @@ function createMessage($arrayMsg) {
         // execution de la requete
         $statement -> execute($arrayMsg);
         $statement -> closeCursor();
-        $pdo->lastInsertId();
+        $pdo = $pdo->lastInsertId();
     } catch(PDOException $ex) {         
         $statement = null;
         $pdo = null;
